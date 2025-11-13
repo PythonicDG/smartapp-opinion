@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SMARTVIEW Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --dark-bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.95);
+      --text-light: #ffffff;   /* PURE WHITE TEXT */
+      --text-muted: #d1d5db;   /* Light gray for subtle labels */
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    }
+
+    .card-header {
+      background: rgba(30,41,59,0.7);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .metric-card { text-align:center; padding:1.5rem; }
+    .metric-value { font-size:2.5rem; font-weight:800; color: var(--text-light); }
+    .metric-label { color: var(--text-muted); font-weight:500; }
+
+    .review-card {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+      color: var(--text-light);
+    }
+    .positive-review { border-left-color: var(--success); }
+    .negative-review { border-left-color: var(--danger); }
+
+    .summary-section { padding:1.5rem; }
+    .summary-content {
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+
+    h1, h2, h3, h4, h5, h6, p, div, span {
+      color: var(--text-light);
+    }
+
+    .chart-container { position: relative; height: 300px; width: 100%; }
+
+    @media (max-width: 768px) {
+      .chart-container { height: 250px; }
+      .metric-value { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-chart-line me-2"></i>SMARTVIEW
+      </a>
+      <div class="d-flex align-items-center">
+        <span class="badge bg-light text-dark">
+          {{ app_id }}
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+
+    <!-- Metrics -->
+    <div class="row mb-5">
+      <div class="col-md-4 mb-3">
+        <div class="card metric-card">
+          <div class="metric-value text-warning">{{ avg_rating }}</div>
+          <div class="metric-label">Average Rating</div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card metric-card">
+          <div class="metric-value text-success">{{ data["Positive"] }}%</div>
+          <div class="metric-label">Positive Reviews</div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card metric-card">
+          <div class="metric-value text-danger">{{ data["Negative"] }}%</div>
+          <div class="metric-label">Negative Reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Left Section -->
+      <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header">
+            <i class="fas fa-star text-warning me-2"></i>Rating Overview
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="ratingChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summaries -->
+        <div class="card shadow-sm mt-4">
+          <div class="card-header">
+            <i class="fas fa-list-alt text-primary me-2"></i>Review Summary
+          </div>
+          <div class="summary-section">
+            <h5 class="text-success"><i class="fas fa-check-circle"></i> Pros Summary</h5>
+            <div class="summary-content">{{ pros_summary or "Not available" }}</div>
+
+            <h5 class="text-danger mt-4"><i class="fas fa-times-circle"></i> Cons Summary</h5>
+            <div class="summary-content">{{ cons_summary or "Not available" }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Section -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header">
+            <i class="fas fa-chart-pie text-info me-2"></i>Sentiment Distribution
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="sentimentChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <i class="fas fa-comments text-primary me-2"></i>Example Reviews
+          </div>
+          <div class="card-body">
+            <h6 class="text-success"><i class="fas fa-thumbs-up"></i> Positive</h6>
+            {% for r in samples["Positive"] %}
+              <div class="review-card positive-review">{{ r }}</div>
+            {% endfor %}
+            <hr>
+            <h6 class="text-danger"><i class="fas fa-thumbs-down"></i> Negative</h6>
+            {% for r in samples["Negative"] %}
+              <div class="review-card negative-review">{{ r }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const sentimentData = {{ data|tojson }};
+    const ratingsData = {{ ratings|tojson }};
+
+    new Chart(document.getElementById("sentimentChart"), {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(sentimentData),
+        datasets: [{
+          data: Object.values(sentimentData),
+          backgroundColor: ['#10b981', '#ef4444'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        plugins: { legend: { position: 'bottom', labels: { color: '#ffffff' } } },
+        cutout: '65%'
+      }
+    });
+
+    new Chart(document.getElementById("ratingChart"), {
+      type: 'bar',
+      data: {
+        labels: ['1★','2★','3★','4★','5★'],
+        datasets: [{
+          data: ratingsData,
+          backgroundColor: ['#ef4444','#f97316','#eab308','#84cc16','#10b981'],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        scales: {
+          x: { ticks: { color: '#ffffff' } },
+          y: { ticks: { color: '#ffffff' }, beginAtZero: true }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Data and models
+data/
+models/*.safetensors
+models/*.pth
+models/*.pt
+models/*.h5
+models/*.keras
+
+# Hugging Face caches
+.cache/
+.hf/
+# Jupyter
+.ipynb_checkpoints
+
+# System files
+.DS_Store
+Thumbs.db
