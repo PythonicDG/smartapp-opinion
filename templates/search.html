@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SMARTVIEW - App Insights</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --primary-light: #4cc9f0;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4ade80;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f7fa;
+      --text-primary: #212529;
+      --text-secondary: #64748b;
+      --card-bg: #ffffff;
+      --border-color: #e5e7eb;
+      --input-bg: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --primary: #4cc9f0;
+      --primary-dark: #3a0ca3;
+      --primary-light: #4361ee;
+      --secondary: #9d4edd;
+      --accent: #ff6b6b;
+      --light: #0f172a;
+      --dark: #f8f9fa;
+      --success: #4ade80;
+      --gray: #94a3b8;
+      --light-gray: #1e293b;
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --input-bg: #334155;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+      line-height: 1.6;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar {
+      padding: 1.2rem 0;
+      background: var(--card-bg) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand i {
+      margin-right: 10px;
+      font-size: 1.8rem;
+    }
+
+    .theme-toggle {
+      background: var(--light-gray);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      margin-right: 15px;
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: white;
+      transform: rotate(15deg);
+    }
+
+    .hero-search {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1rem;
+      position: relative;
+    }
+
+    .bg-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(114, 9, 183, 0.05));
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bg-circle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+
+    .bg-circle:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      bottom: 20%;
+      left: 10%;
+      animation-delay: 5s;
+      background: linear-gradient(135deg, rgba(76, 201, 240, 0.05), rgba(67, 97, 238, 0.05));
+    }
+
+    .bg-circle:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      top: 60%;
+      right: 20%;
+      animation-delay: 10s;
+      background: linear-gradient(135deg, rgba(114, 9, 183, 0.05), rgba(247, 37, 133, 0.05));
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      33% {
+        transform: translate(30px, -30px) rotate(120deg);
+      }
+      66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+      }
+    }
+
+    .search-hero {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      padding: 4rem 3rem;
+      border-radius: 32px;
+      box-shadow: 
+        0 20px 60px rgba(67, 97, 238, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .search-icon-large {
+      font-size: 4rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .search-hero {
+        padding: 3rem 2rem;
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-box-main {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .search-input-main {
+      width: 100%;
+      padding: 1.4rem 1.5rem 1.4rem 3.5rem;
+      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      background: var(--input-bg);
+      color: var(--text-primary);
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.1);
+    }
+
+    .search-input-main:focus {
+      border-color: var(--primary);
+      box-shadow: 0 8px 30px rgba(67, 97, 238, 0.2);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    .search-icon-main {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 1.3rem;
+      z-index: 2;
+    }
+
+    .suggestions-container {
+      position: relative;
+    }
+
+    .suggestions-list {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      max-height: 350px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      border: 1px solid var(--border-color);
+    }
+
+    .suggestions-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .suggestions-list::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+    }
+
+    .suggestions-list::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    .suggestion-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .suggestion-item:hover {
+      background: linear-gradient(90deg, rgba(67, 97, 238, 0.05), rgba(114, 9, 183, 0.05));
+      transform: translateX(5px);
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      margin-right: 15px;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .app-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .app-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .app-developer {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .analyze-btn-main {
+      padding: 1.2rem 3rem;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .analyze-btn-main::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .analyze-btn-main:hover::before {
+      left: 100%;
+    }
+
+    .analyze-btn-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.4);
+    }
+
+    .analyze-btn-main:active {
+      transform: translateY(-1px);
+    }
+
+    .analyze-btn-main:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
+    }
+
+    .ai-process {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      opacity: 0.8;
+    }
+
+    .process-step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .process-step i {
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .process-divider {
+      color: var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .ai-process {
+        gap: 1rem;
+        flex-direction: column;
+      }
+      .process-divider {
+        display: none;
+      }
+    }
+
+    .footer {
+      background: var(--light-gray);
+      color: var(--text-primary);
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .footer p {
+      margin-bottom: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .loading-indicator {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .loading-indicator i {
+      margin-right: 8px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .alert-danger {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      color: #dc3545;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .floating-info {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 100;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.5s ease-out;
+      max-width: 300px;
+      border: 1px solid var(--border-color);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .info-card i {
+      color: var(--primary);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .info-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .info-text strong {
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
+      .floating-info {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-chart-line"></i> SMARTVIEW
+      </a>
+      <div class="d-flex align-items-center">
+        <button class="theme-toggle" id="themeToggle">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="navbar-nav ms-auto">
+          <a href="/" class="nav-link">
+            <i class="fas fa-home me-1"></i> Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="bg-elements">
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+  </div>
+
+  <section class="hero-search">
+    <div class="container">
+      <div class="search-hero">
+        <div class="search-icon-large">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        
+        <h1 class="hero-title">Analyze Any App in Seconds</h1>
+        <p class="hero-subtitle">
+          Enter any app name to get real-time sentiment analysis, rating breakdowns, and user feedback insights powered by AI.
+        </p>
+
+        {% if error %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form id="analyzeForm" action="/analyze" method="post">
+          <div class="search-box-main">
+            <i class="fas fa-search search-icon-main"></i>
+            <input 
+              type="text" 
+              id="appSearch" 
+              class="form-control search-input-main" 
+              placeholder="Search for an app (e.g., Spotify, Instagram, WhatsApp)" 
+              autocomplete="off"
+              required
+            >
+            <input type="hidden" name="selected_app_id" id="selectedAppId">
+            
+            <div class="suggestions-container">
+              <div id="suggestions" class="suggestions-list"></div>
+            </div>
+          </div>
+
+          <div class="loading-indicator" id="loadingIndicator">
+            <i class="fas fa-spinner"></i> Searching apps...
+          </div>
+
+          <button type="submit" class="btn analyze-btn-main" id="analyzeButton">
+            <i class="fas fa-play"></i> Start Analysis
+          </button>
+        </form>
+
+        <div class="ai-process">
+          <div class="process-step">
+            <i class="fas fa-search"></i>
+            <span>Search App</span>
+          </div>
+          <div class="process-divider">→</div>
+          <div class="process-step">
+            <i class="fas fa-cloud-download-alt"></i>
+            <span>Fetch Reviews</span>
+          </div>
+          <div class="process-divider">→</div>
+          <div class="process-step">
+            <i class="fas fa-brain"></i>
+            <span>AI Analysis</span>
+          </div>
+          <div class="process-divider">→</div>
+          <div class="process-step">
+            <i class="fas fa-chart-line"></i>
+            <span>Get Insights</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="floating-info">
+    <div class="info-card">
+      <i class="fas fa-bolt"></i>
+      <div class="info-text">
+        <strong>Real-time Results</strong><br>
+        Analysis completed in seconds
+      </div>
+    </div>
+    <div class="info-card">
+      <i class="fas fa-robot"></i>
+      <div class="info-text">
+        <strong>AI-Powered</strong><br>
+        LSTM model for accurate sentiment
+      </div>
+    </div>
+    <div class="info-card">
+      <i class="fas fa-shield-alt"></i>
+      <div class="info-text">
+        <strong>No Data Storage</strong><br>
+        Your searches are not stored
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 SMARTVIEW Analytics. Instant app insights powered by AI.</p>
+      <p class="mt-2">
+        <small>Analyzing Google Play Store reviews in real-time with deep learning</small>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+
+    // Check for saved theme or prefer-color-scheme
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+    });
+
+    // Search functionality
+    const input = document.getElementById("appSearch");
+    const suggestions = document.getElementById("suggestions");
+    const hiddenInput = document.getElementById("selectedAppId");
+    const analyzeButton = document.getElementById("analyzeButton");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    const form = document.getElementById("analyzeForm");
+
+    let debounceTimer;
+
+    suggestions.addEventListener("mousedown", e => {
+      e.preventDefault();
+    });
+
+    input.addEventListener("input", () => {
+      const q = input.value.trim();
+
+      if (!q) { 
+        hiddenInput.value = "";
+        suggestions.style.display = "none"; 
+        analyzeButton.disabled = true;
+        loadingIndicator.style.display = "none";
+        return; 
+      }
+
+      clearTimeout(debounceTimer);
+      loadingIndicator.style.display = "block";
+
+      debounceTimer = setTimeout(() => {
+        fetch(`/search_app?q=${encodeURIComponent(q)}`)
+          .then(res => res.json())
+          .then(data => {
+            suggestions.innerHTML = "";
+            loadingIndicator.style.display = "none";
+
+            if (!data.length) {
+              suggestions.style.display = "none";
+              analyzeButton.disabled = true;
+              return;
+            }
+
+            data.forEach(app => {
+              const item = document.createElement("div");
+              item.className = "suggestion-item";
+              item.innerHTML = `
+                <img src="${app.icon}" class="app-icon" alt="${app.name} icon">
+                <div class="app-info">
+                  <div class="app-name">${app.name}</div>
+                  <div class="app-developer">${app.developer}</div>
+                </div>
+              `;
+              
+              item.addEventListener("click", () => {
+                input.value = app.name;
+                hiddenInput.value = app.id;
+                suggestions.style.display = "none";
+                analyzeButton.disabled = false;
+                
+                input.style.borderColor = "#4ade80";
+                input.style.boxShadow = "0 8px 25px rgba(74, 222, 128, 0.3)";
+                setTimeout(() => {
+                  input.style.borderColor = "";
+                  input.style.boxShadow = "";
+                }, 1000);
+              });
+
+              suggestions.appendChild(item);
+            });
+
+            suggestions.style.display = "block";
+            analyzeButton.disabled = false;
+          })
+          .catch(error => {
+            console.error('Error fetching suggestions:', error);
+            loadingIndicator.style.display = "none";
+            suggestions.style.display = "none";
+          });
+      }, 350);
+    });
+
+    form.addEventListener("submit", (e) => {
+      if (!hiddenInput.value && input.value.trim()) {
+        e.preventDefault();
+        alert("Please select an app from the suggestions to proceed.");
+        input.focus();
+        return;
+      }
+      
+      analyzeButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+      analyzeButton.disabled = true;
+      analyzeButton.style.cursor = 'wait';
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!input.contains(e.target) && !suggestions.contains(e.target)) {
+        suggestions.style.display = "none";
+      }
+    });
+
+    input.addEventListener("keyup", () => {
+      if (!hiddenInput.value) {
+        analyzeButton.disabled = true;
+      }
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && suggestions.style.display === "block") {
+        e.preventDefault();
+        const firstSuggestion = suggestions.querySelector(".suggestion-item");
+        if (firstSuggestion) {
+          firstSuggestion.click();
+        }
+      }
+    });
+
+    window.addEventListener('load', () => {
+      input.focus();
+    });
+  </script>
+</body>
+</html>

@@ -1,238 +1,809 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>SMARTVIEW Dashboard</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --dark-bg: #0f172a;
-      --card-bg: rgba(30, 41, 59, 0.95);
-      --text-light: #ffffff;   /* PURE WHITE TEXT */
-      --text-muted: #d1d5db;   /* Light gray for subtle labels */
-      --border-color: rgba(255, 255, 255, 0.15);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMARTVIEW Analytics Dashboard</title>
 
-    body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: var(--text-light);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-    .navbar {
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-    }
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    .navbar-brand {
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--primary), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 1.5rem;
-    }
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-    }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    .card-header {
-      background: rgba(30,41,59,0.7);
-      border-bottom: 1px solid var(--border-color);
-      padding: 1rem 1.5rem;
-      font-weight: 700;
-      color: var(--text-light);
-    }
+    <style>
+      :root {
+        --bg-primary: #f5f7fb;
+        --bg-secondary: #ffffff;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        --navbar-bg: #ffffff;
+        --navbar-border: #e5e7eb;
+        --metric-bg: #f3f4f6;
+        --review-bg: #f9fafb;
+        --accent-primary: #2563eb;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #2563eb, #3b82f6);
+        --recommendation-bg: linear-gradient(135deg, #f0f9ff 0%, #fefce8 100%);
+      }
 
-    .metric-card { text-align:center; padding:1.5rem; }
-    .metric-value { font-size:2.5rem; font-weight:800; color: var(--text-light); }
-    .metric-label { color: var(--text-muted); font-weight:500; }
+      [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        --navbar-bg: #1e293b;
+        --navbar-border: #334155;
+        --metric-bg: #334155;
+        --review-bg: #1e293b;
+        --accent-primary: #3b82f6;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #1e40af, #2563eb);
+        --recommendation-bg: linear-gradient(135deg, #1e3a8a 0%, #1c1917 100%);
+      }
 
-    .review-card {
-      background: rgba(30, 41, 59, 0.7);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-left: 4px solid;
-      color: var(--text-light);
-    }
-    .positive-review { border-left-color: var(--success); }
-    .negative-review { border-left-color: var(--danger); }
+      body {
+        background: var(--bg-primary);
+        font-family: "Inter", sans-serif;
+        color: var(--text-primary);
+        overflow-x: hidden;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
 
-    .summary-section { padding:1.5rem; }
-    .summary-content {
-      background: rgba(30, 41, 59, 0.6);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      color: var(--text-light);
-    }
+      .navbar {
+        background: var(--navbar-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease;
+      }
 
-    h1, h2, h3, h4, h5, h6, p, div, span {
-      color: var(--text-light);
-    }
+      .navbar-brand {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--accent-primary);
+      }
 
-    .chart-container { position: relative; height: 300px; width: 100%; }
+      .app-id-badge {
+        background: var(--accent-primary);
+        color: white;
+        font-weight: 500;
+        padding: 0.4rem 0.7rem;
+        border-radius: 6px;
+      }
 
-    @media (max-width: 768px) {
-      .chart-container { height: 250px; }
-      .metric-value { font-size: 2rem; }
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-        <i class="fas fa-chart-line me-2"></i>SMARTVIEW
-      </a>
-      <div class="d-flex align-items-center">
-        <span class="badge bg-light text-dark">
-          {{ app_id }}
-        </span>
-      </div>
-    </div>
-  </nav>
+      .theme-toggle {
+        background: var(--metric-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
 
-  <main class="container my-5">
+      .theme-toggle:hover {
+        background: var(--accent-primary);
+        color: white;
+        transform: rotate(15deg);
+      }
 
-    <!-- Metrics -->
-    <div class="row mb-5">
-      <div class="col-md-4 mb-3">
-        <div class="card metric-card">
-          <div class="metric-value text-warning">{{ avg_rating }}</div>
-          <div class="metric-label">Average Rating</div>
+      .back-button {
+        background: var(--metric-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .back-button:hover {
+        background: var(--border-color);
+        color: var(--text-primary);
+        transform: translateX(-2px);
+      }
+
+      .back-button:active {
+        transform: translateX(0);
+      }
+
+      .project-banner {
+        background: var(--gradient-primary);
+        padding: 25px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        color: white;
+      }
+
+      .project-banner img {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: cover;
+      }
+
+      .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        transition:
+          transform 0.2s ease,
+          background-color 0.3s ease;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+      }
+
+      .metric-value {
+        font-size: 2.3rem;
+        font-weight: 700;
+      }
+
+      .metric-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .chart-card {
+        height: 320px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chart-container {
+        flex: 1;
+        min-height: 0;
+        padding: 10px;
+      }
+
+      .recommendations-card {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: var(--recommendation-bg);
+        border-left: 6px solid var(--accent-primary);
+      }
+
+      .recommendations-card .card-title {
+        color: var(--accent-primary);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .recommendations-card ul {
+        padding-left: 1.5rem;
+        margin-bottom: 0;
+      }
+
+      .recommendations-card li {
+        margin-bottom: 0.8rem;
+        padding-left: 0.5rem;
+        color: var(--text-primary);
+        line-height: 1.5;
+        position: relative;
+      }
+
+      .recommendations-card li:before {
+        content: "💡";
+        position: absolute;
+        left: -1.5rem;
+      }
+
+      .recommendations-card li:last-child {
+        margin-bottom: 0;
+      }
+
+      .reviews-column {
+        height: 680px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .reviews-card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .reviews-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        min-height: 0;
+      }
+
+      .reviews-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .reviews-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--border-color);
+      }
+
+      .section-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .review-count {
+        background: var(--metric-bg);
+        color: var(--text-secondary);
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .reviews-scrollable {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+        border-radius: 12px;
+        background: var(--review-bg);
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        min-height: 0;
+      }
+
+      .reviews-scrollable::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .reviews-scrollable::-webkit-scrollbar-track {
+        background: var(--metric-bg);
+        border-radius: 10px;
+      }
+
+      .reviews-scrollable::-webkit-scrollbar-thumb {
+        background: var(--text-secondary);
+        border-radius: 10px;
+      }
+
+      .reviews-scrollable::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-primary);
+      }
+
+      .review-card {
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 0.8rem;
+        background: var(--bg-secondary);
+        border-left: 4px solid;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        transition: all 0.2s ease;
+      }
+
+      .review-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateX(4px);
+      }
+
+      .positive-review {
+        border-color: var(--accent-success);
+        background: linear-gradient(
+          to right,
+          rgba(16, 185, 129, 0.1),
+          var(--bg-secondary)
+        );
+      }
+
+      .negative-review {
+        border-color: var(--accent-danger);
+        background: linear-gradient(
+          to right,
+          rgba(239, 68, 68, 0.1),
+          var(--bg-secondary)
+        );
+      }
+
+      .review-content {
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+      }
+
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .sentiment-badge {
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .positive-badge {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--accent-success);
+      }
+
+      .negative-badge {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--accent-danger);
+      }
+
+      .footer {
+        padding: 20px 0;
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+        background: var(--bg-secondary);
+        transition: all 0.3s ease;
+      }
+
+      @media (max-width: 992px) {
+        .chart-card {
+          height: 300px;
+        }
+
+        .reviews-column {
+          height: auto;
+          min-height: 600px;
+        }
+
+        .reviews-container {
+          height: 600px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .project-banner {
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
+
+        .metric-value {
+          font-size: 2rem;
+        }
+
+        .chart-card {
+          height: 280px;
+        }
+
+        .reviews-column {
+          height: auto;
+          min-height: 500px;
+        }
+
+        .navbar .d-flex {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start !important;
+        }
+
+        .back-button {
+          align-self: flex-start;
+        }
+      }
+
+      .review-highlight {
+        background: #fde047;
+        padding: 0 4px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-white px-3 sticky-top">
+      <div
+        class="container-fluid d-flex justify-content-between align-items-center"
+      >
+        <a class="navbar-brand" href="#">
+          <i class="fa-solid fa-chart-line me-2"></i>
+          SMARTVIEW Analytics
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <a href="javascript:history.back()" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Apps
+          </a>
+          <span class="app-id-badge">{{ app_id }}</span>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="card metric-card">
-          <div class="metric-value text-success">{{ data["Positive"] }}%</div>
-          <div class="metric-label">Positive Reviews</div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="card metric-card">
-          <div class="metric-value text-danger">{{ data["Negative"] }}%</div>
-          <div class="metric-label">Negative Reviews</div>
-        </div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="row g-4">
-      <!-- Left Section -->
-      <div class="col-lg-8">
-        <div class="card shadow-sm mb-4">
-          <div class="card-header">
-            <i class="fas fa-star text-warning me-2"></i>Rating Overview
+    <div class="container mt-4">
+      <div class="project-banner">
+        <div>
+          <h4 class="mb-1">User Review Sentiment Insight System</h4>
+          <p class="mb-0" style="opacity: 0.9">
+            Real-time analysis of ratings, trends, and sentiment distribution.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-lg-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-star text-warning fs-3 mb-2"></i>
+            <div class="metric-value">{{ avg_rating }}</div>
+            <div class="metric-label">Average rating</div>
           </div>
-          <div class="card-body">
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-thumbs-up text-success fs-3 mb-2"></i>
+            <div class="metric-value text-success">{{ data["Positive"] }}%</div>
+            <div class="metric-label">Positive reviews</div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-thumbs-down text-danger fs-3 mb-2"></i>
+            <div class="metric-value text-danger">{{ data["Negative"] }}%</div>
+            <div class="metric-label">Negative reviews</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card recommendations-card p-4">
+        <h5 class="card-title">
+          <i class="fas fa-lightbulb text-warning me-2"></i>
+          AI-Based Recommendations
+        </h5>
+        <ul class="mt-2">
+          {% for rec in recommendations %}
+          <li>{{ rec }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="card p-4 chart-card mb-4">
+            <h5 class="mb-3">
+              <i class="fa-solid fa-chart-column text-primary me-2"></i>
+              Rating Distribution
+            </h5>
             <div class="chart-container">
               <canvas id="ratingChart"></canvas>
             </div>
           </div>
-        </div>
 
-        <!-- Summaries -->
-        <div class="card shadow-sm mt-4">
-          <div class="card-header">
-            <i class="fas fa-list-alt text-primary me-2"></i>Review Summary
-          </div>
-          <div class="summary-section">
-            <h5 class="text-success"><i class="fas fa-check-circle"></i> Pros Summary</h5>
-            <div class="summary-content">{{ pros_summary or "Not available" }}</div>
-
-            <h5 class="text-danger mt-4"><i class="fas fa-times-circle"></i> Cons Summary</h5>
-            <div class="summary-content">{{ cons_summary or "Not available" }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Section -->
-      <div class="col-lg-4">
-        <div class="card shadow-sm mb-4">
-          <div class="card-header">
-            <i class="fas fa-chart-pie text-info me-2"></i>Sentiment Distribution
-          </div>
-          <div class="card-body">
+          <div class="card p-4 chart-card">
+            <h5 class="mb-3">
+              <i class="fa-solid fa-circle-half-stroke text-primary me-2"></i>
+              Sentiment Analysis
+            </h5>
             <div class="chart-container">
               <canvas id="sentimentChart"></canvas>
             </div>
           </div>
         </div>
 
-        <div class="card shadow-sm">
-          <div class="card-header">
-            <i class="fas fa-comments text-primary me-2"></i>Example Reviews
-          </div>
-          <div class="card-body">
-            <h6 class="text-success"><i class="fas fa-thumbs-up"></i> Positive</h6>
-            {% for r in samples["Positive"] %}
-              <div class="review-card positive-review">{{ r }}</div>
-            {% endfor %}
-            <hr>
-            <h6 class="text-danger"><i class="fas fa-thumbs-down"></i> Negative</h6>
-            {% for r in samples["Negative"] %}
-              <div class="review-card negative-review">{{ r }}</div>
-            {% endfor %}
+        <div class="col-lg-4 reviews-column">
+          <div class="card p-4 reviews-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">
+                <i class="fa-solid fa-comment-dots text-primary me-2"></i>
+                Sample Reviews
+              </h5>
+
+              <input
+                type="text"
+                id="reviewSearch"
+                class="form-control form-control-sm"
+                placeholder="🔍 Search review keywords"
+                style="max-width: 220px"
+              />
+            </div>
+
+            <div class="reviews-container">
+              <div class="reviews-section">
+                <div class="reviews-section-header">
+                  <div class="section-title">
+                    <i class="fas fa-thumbs-up text-success"></i>
+                    Positive Reviews
+                  </div>
+                  <span class="review-count">
+                    {{ samples["Positive"]|length }}
+                  </span>
+                </div>
+
+                <div class="reviews-scrollable">
+                  {% for r in samples["Positive"] %}
+                  <div class="review-card positive-review">
+                    <div class="review-header">
+                      <span class="sentiment-badge positive-badge">
+                        <i class="fas fa-smile me-1"></i>
+                        Positive
+                      </span>
+                      <small class="text-muted">#{{ loop.index }}</small>
+                    </div>
+                    <div class="review-content" data-original="{{ r }}">
+                      {{ r }}
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="reviews-section">
+                <div class="reviews-section-header">
+                  <div class="section-title">
+                    <i class="fas fa-thumbs-down text-danger"></i>
+                    Negative Reviews
+                  </div>
+                  <span class="review-count">
+                    {{ samples["Negative"]|length }}
+                  </span>
+                </div>
+
+                <div class="reviews-scrollable">
+                  {% for r in samples["Negative"] %}
+                  <div class="review-card negative-review">
+                    <div class="review-header">
+                      <span class="sentiment-badge negative-badge">
+                        <i class="fas fa-frown me-1"></i>
+                        Negative
+                      </span>
+                      <small class="text-muted">#{{ loop.index }}</small>
+                    </div>
+                    <div class="review-content" data-original="{{ r }}">
+                      {{ r }}
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </main>
 
-  <script>
-    const sentimentData = {{ data|tojson }};
-    const ratingsData = {{ ratings|tojson }};
+    <div class="footer">
+      SMARTVIEW Analytics • always fresh insights • {{ current_date }}
+    </div>
 
-    new Chart(document.getElementById("sentimentChart"), {
-      type: 'doughnut',
-      data: {
-        labels: Object.keys(sentimentData),
-        datasets: [{
-          data: Object.values(sentimentData),
-          backgroundColor: ['#10b981', '#ef4444'],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        plugins: { legend: { position: 'bottom', labels: { color: '#ffffff' } } },
-        cutout: '65%'
-      }
-    });
+    <script>
+      const searchInput = document.getElementById("reviewSearch");
+      const reviewTexts = document.querySelectorAll(".review-content");
 
-    new Chart(document.getElementById("ratingChart"), {
-      type: 'bar',
-      data: {
-        labels: ['1★','2★','3★','4★','5★'],
-        datasets: [{
-          data: ratingsData,
-          backgroundColor: ['#ef4444','#f97316','#eab308','#84cc16','#10b981'],
-          borderRadius: 8
-        }]
-      },
-      options: {
-        scales: {
-          x: { ticks: { color: '#ffffff' } },
-          y: { ticks: { color: '#ffffff' }, beginAtZero: true }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-  </script>
-</body>
+      searchInput.addEventListener("input", () => {
+          const query = searchInput.value.trim().toLowerCase();
+
+          reviewTexts.forEach(el => {
+              const original = el.dataset.original;
+
+              if (!query) {
+                  el.innerHTML = original;
+                  return;
+              }
+
+              const regex = new RegExp(`(${query})`, "gi");
+              el.innerHTML = original.replace(
+                  regex,
+                  `<span class="review-highlight">$1</span>`
+              );
+          });
+      });
+
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const currentTheme = localStorage.getItem('theme');
+
+            if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+
+                if (currentTheme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+
+                updateChartColors();
+            });
+
+            const ratings = {{ ratings|tojson }};
+            const pos = {{ data["Positive"] }};
+            const neg = {{ data["Negative"] }};
+
+            let ratingChart, sentimentChart;
+
+            function updateChartColors() {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                const textColor = isDark ? '#f1f5f9' : '#666';
+
+                if (ratingChart) {
+                    ratingChart.options.scales.y.grid.color = gridColor;
+                    ratingChart.options.scales.x.ticks.color = textColor;
+                    ratingChart.options.scales.y.ticks.color = textColor;
+                    ratingChart.update();
+                }
+
+                if (sentimentChart) {
+                    sentimentChart.options.plugins.legend.labels.color = textColor;
+                    sentimentChart.update();
+                }
+            }
+
+            ratingChart = new Chart(document.getElementById("ratingChart"), {
+                type: "bar",
+                data: {
+                    labels: ["1★", "2★", "3★", "4★", "5★"],
+                    datasets: [{
+                        data: ratings,
+                        backgroundColor: ["#ef4444","#f97316","#eab308","#84cc16","#10b981"],
+                        borderRadius: 8,
+                        borderWidth: 1,
+                        borderColor: 'rgba(255,255,255,0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)',
+                            titleColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+                            bodyColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+                            borderColor: '#2563eb',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                            }
+                        }
+                    }
+                }
+            });
+
+            sentimentChart = new Chart(document.getElementById("sentimentChart"), {
+                type: "doughnut",
+                data: {
+                    labels: ["Positive", "Negative"],
+                    datasets: [{
+                        data: [pos, neg],
+                        backgroundColor: ["#10b981","#ef4444"],
+                        borderWidth: 3,
+                        borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : 'white'
+                    }]
+                },
+                options: {
+                    cutout: "65%",
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'light');
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                    updateChartColors();
+                }
+            });
+    </script>
+  </body>
 </html>
