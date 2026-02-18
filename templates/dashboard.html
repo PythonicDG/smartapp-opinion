@@ -139,21 +139,207 @@
       }
 
       .project-banner {
-        background: var(--gradient-primary);
-        padding: 25px;
-        border-radius: 16px;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 25px;
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
         color: white;
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+        position: relative;
+        overflow: hidden;
       }
 
-      .project-banner img {
-        width: 80px;
-        height: 80px;
-        border-radius: 12px;
+      .project-banner::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .project-banner .row {
+        position: relative;
+        z-index: 1;
+      }
+
+      .app-icon-container {
+        position: relative;
+        width: 100px;
+        height: 100px;
+      }
+
+      .app-icon {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
         object-fit: cover;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .rating-badge {
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        background: #f59e0b;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+      }
+
+      .app-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: white;
+        margin: 0;
+      }
+
+      .developer-info {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+      }
+
+      .health-score {
+        text-align: center;
+      }
+
+      .score-circle {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        margin: 0 auto;
+        backdrop-filter: blur(10px);
+      }
+
+      .score-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .score-label {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+
+      .score-text {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+        white-space: nowrap;
+      }
+
+      .search-app-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.7rem 1.2rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .search-app-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .search-app-btn i {
+        font-size: 1rem;
+      }
+
+      .search-app-btn .btn-text {
+        font-size: 0.9rem;
+      }
+
+      .meta-item {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+      }
+
+      .meta-item strong {
+        margin-right: 0.3rem;
+      }
+
+      .meta-value {
+        font-weight: 600;
+        margin-left: 0.3rem;
+      }
+
+      .sentiment-stats {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 1.5rem;
+      }
+
+      .sentiment-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .sentiment-stat i {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .positive i {
+        color: #10b981;
+      }
+
+      .negative i {
+        color: #ef4444;
+      }
+
+      .neutral i {
+        color: #8b5cf6;
       }
 
       .card {
@@ -183,9 +369,10 @@
       }
 
       .chart-card {
-        height: 320px;
+        height: 300px;
         display: flex;
         flex-direction: column;
+        margin-bottom:15px
       }
 
       .chart-container {
@@ -391,9 +578,267 @@
         transition: all 0.3s ease;
       }
 
+      .review-highlight {
+        background: #fde047;
+        padding: 0 4px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      .metric-tag-card {
+        background: var(--metric-bg);
+        padding: 1.25rem;
+        border-radius: 14px;
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+        height: 100%;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .metric-tag-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .bug-card {
+        border-color: var(--accent-danger);
+        background: linear-gradient(
+          to right,
+          rgba(239, 68, 68, 0.05),
+          var(--metric-bg)
+        );
+      }
+
+      .performance-card {
+        border-color: var(--accent-warning);
+        background: linear-gradient(
+          to right,
+          rgba(245, 158, 11, 0.05),
+          var(--metric-bg)
+        );
+      }
+
+      .ui-card {
+        border-color: var(--accent-primary);
+        background: linear-gradient(
+          to right,
+          rgba(37, 99, 235, 0.05),
+          var(--metric-bg)
+        );
+      }
+
+      .feature-card {
+        border-color: var(--accent-success);
+        background: linear-gradient(
+          to right,
+          rgba(16, 185, 129, 0.05),
+          var(--metric-bg)
+        );
+      }
+
+      .tag-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .bug-icon {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--accent-danger);
+      }
+
+      .performance-icon {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--accent-warning);
+      }
+
+      .ui-icon {
+        background: rgba(37, 99, 235, 0.15);
+        color: var(--accent-primary);
+      }
+
+      .feature-icon {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--accent-success);
+      }
+
+      .tag-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+      }
+
+      .tag-percentage {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .tag-count {
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.3rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: var(--text-secondary);
+      }
+
+      .tag-count i {
+        font-size: 0.7rem;
+      }
+
+      .progress {
+        background-color: rgba(0, 0, 0, 0.06);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        border-radius: 10px;
+      }
+
+      .issue-summary {
+        font-size: 0.9rem;
+      }
+
+      .badge.bg-primary-subtle {
+        background-color: rgba(37, 99, 235, 0.1) !important;
+        color: var(--accent-primary) !important;
+        border: 1px solid rgba(37, 99, 235, 0.2);
+      }
+
+      [data-theme="dark"] .badge.bg-primary-subtle {
+        background-color: rgba(37, 99, 235, 0.2) !important;
+        color: #3b82f6 !important;
+      }
+
+      .btn-outline-primary {
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+      }
+
+      .btn-outline-primary:hover {
+        background-color: var(--accent-primary);
+        color: white;
+      }
+
+      [data-theme="dark"] .project-banner {
+        background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] .metric-tag-card {
+        background: var(--bg-secondary);
+      }
+
+      [data-theme="dark"] .tag-count {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      [data-theme="dark"] .progress {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .sentiment-details {
+        height: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .sentiment-metric {
+        padding: 1rem;
+        background: var(--metric-bg);
+        border-radius: 12px;
+        border-left: 4px solid;
+      }
+      
+      .sentiment-metric.positive {
+        border-color: var(--accent-success);
+      }
+      
+      .sentiment-metric.negative {
+        border-color: var(--accent-danger);
+      }
+      
+      .sentiment-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      
+      .positive-indicator {
+        background: var(--accent-success);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+      }
+      
+      .negative-indicator {
+        background: var(--accent-danger);
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+      }
+      
+      .sentiment-label {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-primary);
+      }
+      
+      .sentiment-count {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      
+      .sentiment-percentage {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      
+      .sentiment-summary {
+        background: var(--review-bg);
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+      }
+      
+      .sentiment-comparison {
+        font-size: 0.9rem;
+      }
+      
+      .comparison-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 8px;
+      }
+      
+      .comparison-item span {
+        flex: 1;
+        color: var(--text-secondary);
+      }
+      
+      .comparison-item strong {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+      
+      [data-theme="dark"] .comparison-item {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
       @media (max-width: 992px) {
         .chart-card {
-          height: 300px;
+          height: 320px;
         }
 
         .reviews-column {
@@ -408,9 +853,17 @@
 
       @media (max-width: 768px) {
         .project-banner {
-          flex-direction: column;
-          text-align: center;
-          gap: 15px;
+          padding: 1.5rem;
+        }
+
+        .app-icon-container {
+          width: 80px;
+          height: 80px;
+          margin-bottom: 1rem;
+        }
+
+        .app-title {
+          font-size: 1.5rem;
         }
 
         .metric-value {
@@ -435,13 +888,98 @@
         .back-button {
           align-self: flex-start;
         }
+
+        .d-flex.flex-column.flex-md-row {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+        }
+
+        .d-flex.align-items-center.gap-3 {
+          flex-direction: row !important;
+          width: 100%;
+          justify-content: space-between;
+          margin-top: 1rem;
+        }
+
+        .health-score {
+          text-align: left;
+        }
+
+        .score-circle {
+          margin: 0;
+          width: 60px;
+          height: 60px;
+        }
+
+        .score-value {
+          font-size: 1.3rem;
+        }
+
+        .search-app-btn {
+          padding: 0.6rem 1rem;
+        }
+
+        .search-app-btn .btn-text {
+          display: none;
+        }
+
+        .search-app-btn i {
+          font-size: 1.2rem;
+        }
+
+        .meta-item {
+          margin-bottom: 0.5rem;
+          width: 100%;
+        }
+
+        .sentiment-stat {
+          flex: 1;
+          min-width: 120px;
+          justify-content: center;
+        }
+
+        .row.g-3.align-items-center {
+          flex-direction: column;
+          align-items: flex-start !important;
+        }
+
+        .metric-tag-card {
+          padding: 1rem;
+          min-height: 110px;
+        }
+
+        .tag-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+
+        .tag-percentage {
+          font-size: 1.3rem;
+        }
+
+        .sentiment-percentage {
+          font-size: 1.3rem;
+        }
       }
 
-      .review-highlight {
-        background: #fde047;
-        padding: 0 4px;
-        border-radius: 4px;
-        font-weight: 600;
+      @media (min-width: 769px) and (max-width: 992px) {
+        .search-app-btn .btn-text {
+          font-size: 0.8rem;
+        }
+
+        .score-circle {
+          width: 60px;
+          height: 60px;
+        }
+
+        .score-value {
+          font-size: 1.3rem;
+        }
+      }
+
+      .sentiment-card{
+        height: 350px;
       }
     </style>
   </head>
@@ -451,19 +989,37 @@
       <div
         class="container-fluid d-flex justify-content-between align-items-center"
       >
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/search">
           <i class="fa-solid fa-chart-line me-2"></i>
           SMARTVIEW Analytics
         </a>
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <a
+            href="/download-report?app_id={{ app_id }}"
+            class="btn btn-sm btn-outline-primary"
+          >
+            <i class="fa-solid fa-file-arrow-down me-1"></i>
+            Download Report
+          </a>
+
+          <a
+            href="/export-reviews?app_id={{ app_id }}"
+            class="btn btn-sm btn-outline-success"
+          >
+            <i class="fa-solid fa-download me-1"></i>
+            Export Reviews
+          </a>
+
           <button class="theme-toggle" id="themeToggle">
             <i class="fas fa-moon"></i>
           </button>
-          <a href="javascript:history.back()" class="back-button">
+
+          <a href="/search" class="back-button">
             <i class="fas fa-arrow-left"></i>
-            Back to Apps
+            Back to Search
           </a>
+
           <span class="app-id-badge">{{ app_id }}</span>
         </div>
       </div>
@@ -471,16 +1027,92 @@
 
     <div class="container mt-4">
       <div class="project-banner">
-        <div>
-          <h4 class="mb-1">User Review Sentiment Insight System</h4>
-          <p class="mb-0" style="opacity: 0.9">
-            Real-time analysis of ratings, trends, and sentiment distribution.
-          </p>
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <div class="app-icon-container">
+              <img
+                src="{{ app_meta.icon }}"
+                alt="{{ app_meta.title }} Icon"
+                class="app-icon"
+                onerror="this.src='https://via.placeholder.com/100/2563eb/ffffff?text=App'"
+              />
+              <div class="rating-badge">
+                <i class="fas fa-star"></i>
+                {{ app_meta.score }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3"
+            >
+              <div>
+                <h2 class="app-title mb-1">{{ app_meta.title }}</h2>
+                <div class="developer-info">
+                  <i class="fas fa-user-tie me-1"></i>
+                  {{ app_meta.developer }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <div class="health-score">
+                  <div class="score-circle">
+                    <span class="score-value">{{ health_score }}</span>
+                    <span class="score-label">/100</span>
+                  </div>
+                  <div class="score-text">Health Score</div>
+                </div>
+                <a href="/search" class="search-app-btn">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <span class="btn-text">Search App</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="row g-3 align-items-center">
+              <div class="col-md-auto">
+                <div class="meta-item">
+                  <i class="fas fa-layer-group me-2"></i>
+                  <strong>Genre:</strong>
+                  <span class="meta-value">{{ app_meta.genre }}</span>
+                </div>
+              </div>
+              <div class="col-md-auto">
+                <div class="meta-item">
+                  <i class="fas fa-calendar-alt me-2"></i>
+                  <strong>Released:</strong>
+                  <span class="meta-value">{{ app_meta.released }}</span>
+                </div>
+              </div>
+              <div class="col-md-auto">
+                <div class="meta-item">
+                  <i class="fas fa-code-branch me-2"></i>
+                  <strong>Version:</strong>
+                  <span class="meta-value">{{ app_meta.version }}</span>
+                </div>
+              </div>
+              <div class="col-md-auto">
+                <div class="meta-item">
+                  <i class="fas fa-id-badge me-2"></i>
+                  <strong>App ID:</strong>
+                  <span class="meta-value">{{ app_id }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="row g-3 mb-4">
-        <div class="col-lg-4">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-download text-primary fs-3 mb-2"></i>
+            <div class="metric-value">{{ app_meta.installs }}</div>
+            <div class="metric-label">Downloads</div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <div class="card p-4 text-center">
             <i class="fa-solid fa-star text-warning fs-3 mb-2"></i>
             <div class="metric-value">{{ avg_rating }}</div>
@@ -488,7 +1120,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <div class="card p-4 text-center">
             <i class="fa-solid fa-thumbs-up text-success fs-3 mb-2"></i>
             <div class="metric-value text-success">{{ data["Positive"] }}%</div>
@@ -496,7 +1128,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <div class="card p-4 text-center">
             <i class="fa-solid fa-thumbs-down text-danger fs-3 mb-2"></i>
             <div class="metric-value text-danger">{{ data["Negative"] }}%</div>
@@ -517,6 +1149,135 @@
         </ul>
       </div>
 
+      <div class="card p-4 chart-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-tags text-danger me-2"></i>
+            Automatic Issue Tagging
+          </h5>
+          <div class="badge bg-primary-subtle text-primary px-3 py-2">
+            <i class="fas fa-robot me-1"></i>
+            AI-Powered
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="metric-tag-card bug-card">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <div class="tag-icon bug-icon me-3">
+                    <i class="fas fa-bug"></i>
+                  </div>
+                  <div>
+                    <div class="tag-name">Bug</div>
+                    <div class="tag-percentage">{{ issue_distribution["Bug"] }}%</div>
+                  </div>
+                </div>
+                <div class="tag-count">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>High</span>
+                </div>
+              </div>
+              <div class="tag-progress mt-2">
+                <div class="progress" style="height: 6px">
+                  <div class="progress-bar bg-danger" style="width: {{ issue_distribution['Bug'] }}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="metric-tag-card performance-card">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <div class="tag-icon performance-icon me-3">
+                    <i class="fas fa-tachometer-alt"></i>
+                  </div>
+                  <div>
+                    <div class="tag-name">Performance</div>
+                    <div class="tag-percentage">{{ issue_distribution["Performance"] }}%</div>
+                  </div>
+                </div>
+                <div class="tag-count">
+                  <i class="fas fa-clock"></i>
+                  <span>Medium</span>
+                </div>
+              </div>
+              <div class="tag-progress mt-2">
+                <div class="progress" style="height: 6px">
+                  <div class="progress-bar bg-warning" style="width: {{ issue_distribution['Performance'] }}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="metric-tag-card ui-card">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <div class="tag-icon ui-icon me-3">
+                    <i class="fas fa-palette"></i>
+                  </div>
+                  <div>
+                    <div class="tag-name">UI/UX</div>
+                    <div class="tag-percentage">{{ issue_distribution["UI"] }}%</div>
+                  </div>
+                </div>
+                <div class="tag-count">
+                  <i class="fas fa-eye"></i>
+                  <span>Medium</span>
+                </div>
+              </div>
+              <div class="tag-progress mt-2">
+                <div class="progress" style="height: 6px">
+                  <div class="progress-bar bg-info" style="width: {{ issue_distribution['UI'] }}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="metric-tag-card feature-card">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <div class="tag-icon feature-icon me-3">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <div>
+                    <div class="tag-name">Feature Request</div>
+                    <div class="tag-percentage">{{ issue_distribution["Feature"] }}%</div>
+                  </div>
+                </div>
+                <div class="tag-count">
+                  <i class="fas fa-star"></i>
+                  <span>Low</span>
+                </div>
+              </div>
+              <div class="tag-progress mt-2">
+                <div class="progress" style="height: 6px">
+                  <div class="progress-bar bg-success" style="width: {{ issue_distribution['Feature'] }}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-top">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="issue-summary">
+              <i class="fas fa-chart-pie text-muted me-2"></i>
+              <span class="text-muted">Total issues analyzed:</span>
+              <strong class="ms-1">{{ total_issues if total_issues else 100 }}</strong>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" id="viewDetailsBtn">
+              <i class="fas fa-external-link-alt me-1"></i>
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="row g-4">
         <div class="col-lg-8">
           <div class="card p-4 chart-card mb-4">
@@ -529,13 +1290,60 @@
             </div>
           </div>
 
-          <div class="card p-4 chart-card">
-            <h5 class="mb-3">
-              <i class="fa-solid fa-circle-half-stroke text-primary me-2"></i>
-              Sentiment Analysis
-            </h5>
-            <div class="chart-container">
-              <canvas id="sentimentChart"></canvas>
+          <div class="card p-4 chart-card" style="height: 380px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">
+                <i class="fa-solid fa-circle-half-stroke text-primary me-2"></i>
+                Sentiment Analysis
+              </h5>
+              <div class="badge bg-primary-subtle text-primary px-3 py-2">
+                <i class="fas fa-brain me-1"></i>
+                AI Analysis
+              </div>
+            </div>
+            
+            <div class="row g-4">
+              <div class="col-lg-6">
+                <div class="chart-container">
+                  <canvas id="sentimentChart"></canvas>
+                </div>
+              </div>
+              
+              <div class="col-lg-6">
+                <div class="sentiment-details">
+                  <div class="sentiment-metric positive">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <div class="d-flex align-items-center">
+                        <div class="sentiment-indicator positive-indicator me-3"></div>
+                        <div>
+                          <div class="sentiment-label">Positive</div>
+                          <div class="sentiment-count">reviews</div>
+                        </div>
+                      </div>
+                      <div class="sentiment-percentage">{{ data["Positive"] }}%</div>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                      <div class="progress-bar bg-success" style="width: {{ data['Positive'] }}%"></div>
+                    </div>
+                  </div>
+                  
+                  <div class="sentiment-metric negative mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <div class="d-flex align-items-center">
+                        <div class="sentiment-indicator negative-indicator me-3"></div>
+                        <div>
+                          <div class="sentiment-label">Negative</div>
+                          <div class="sentiment-count">reviews</div>
+                        </div>
+                      </div>
+                      <div class="sentiment-percentage">{{ data["Negative"] }}%</div>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                      <div class="progress-bar bg-danger" style="width: {{ data['Negative'] }}%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -547,7 +1355,6 @@
                 <i class="fa-solid fa-comment-dots text-primary me-2"></i>
                 Sample Reviews
               </h5>
-
               <input
                 type="text"
                 id="reviewSearch"
@@ -564,11 +1371,8 @@
                     <i class="fas fa-thumbs-up text-success"></i>
                     Positive Reviews
                   </div>
-                  <span class="review-count">
-                    {{ samples["Positive"]|length }}
-                  </span>
+                  <span class="review-count">{{ samples["Positive"]|length }}</span>
                 </div>
-
                 <div class="reviews-scrollable">
                   {% for r in samples["Positive"] %}
                   <div class="review-card positive-review">
@@ -579,9 +1383,7 @@
                       </span>
                       <small class="text-muted">#{{ loop.index }}</small>
                     </div>
-                    <div class="review-content" data-original="{{ r }}">
-                      {{ r }}
-                    </div>
+                    <div class="review-content" data-original="{{ r }}">{{ r }}</div>
                   </div>
                   {% endfor %}
                 </div>
@@ -593,11 +1395,8 @@
                     <i class="fas fa-thumbs-down text-danger"></i>
                     Negative Reviews
                   </div>
-                  <span class="review-count">
-                    {{ samples["Negative"]|length }}
-                  </span>
+                  <span class="review-count">{{ samples["Negative"]|length }}</span>
                 </div>
-
                 <div class="reviews-scrollable">
                   {% for r in samples["Negative"] %}
                   <div class="review-card negative-review">
@@ -608,9 +1407,7 @@
                       </span>
                       <small class="text-muted">#{{ loop.index }}</small>
                     </div>
-                    <div class="review-content" data-original="{{ r }}">
-                      {{ r }}
-                    </div>
+                    <div class="review-content" data-original="{{ r }}">{{ r }}</div>
                   </div>
                   {% endfor %}
                 </div>
@@ -625,185 +1422,316 @@
       SMARTVIEW Analytics • always fresh insights • {{ current_date }}
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
       const searchInput = document.getElementById("reviewSearch");
       const reviewTexts = document.querySelectorAll(".review-content");
 
       searchInput.addEventListener("input", () => {
-          const query = searchInput.value.trim().toLowerCase();
-
-          reviewTexts.forEach(el => {
-              const original = el.dataset.original;
-
-              if (!query) {
-                  el.innerHTML = original;
-                  return;
-              }
-
-              const regex = new RegExp(`(${query})`, "gi");
-              el.innerHTML = original.replace(
-                  regex,
-                  `<span class="review-highlight">$1</span>`
-              );
-          });
+        const query = searchInput.value.trim().toLowerCase();
+        reviewTexts.forEach(el => {
+          const original = el.dataset.original;
+          if (!query) {
+            el.innerHTML = original;
+            return;
+          }
+          const regex = new RegExp(`(${query})`, "gi");
+          el.innerHTML = original.replace(regex, `<span class="review-highlight">$1</span>`);
+        });
       });
 
-            const themeToggle = document.getElementById('themeToggle');
-            const icon = themeToggle.querySelector('i');
+      const themeToggle = document.getElementById('themeToggle');
+      const icon = themeToggle.querySelector('i');
+      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const currentTheme = localStorage.getItem('theme');
 
-            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-            const currentTheme = localStorage.getItem('theme');
+      if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
 
-            if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+        }
+        updateChartColors();
+      });
+
+      const ratings = {{ ratings|tojson }};
+      const pos = {{ data["Positive"] }};
+      const neg = {{ data["Negative"] }};
+      let ratingChart, sentimentChart;
+
+      function updateChartColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+        const textColor = isDark ? '#f1f5f9' : '#666';
+
+        if (ratingChart) {
+          ratingChart.options.scales.y.grid.color = gridColor;
+          ratingChart.options.scales.x.ticks.color = textColor;
+          ratingChart.options.scales.y.ticks.color = textColor;
+          ratingChart.update();
+        }
+
+        if (sentimentChart) {
+          sentimentChart.options.plugins.legend.labels.color = extColor;
+          sentimentChart.update();
+        }
+      }
+
+      ratingChart = new Chart(document.getElementById("ratingChart"), {
+        type: "bar",
+        data: {
+          labels: ["1★", "2★", "3★", "4★", "5★"],
+          datasets: [{
+            data: ratings,
+            backgroundColor: ["#ef4444","#f97316","#eab308","#84cc16","#10b981"],
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: 'rgba(255,255,255,0.8)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)',
+              titleColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+              bodyColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+              borderColor: '#2563eb',
+              borderWidth: 1
             }
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-
-                if (currentTheme === 'light') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                }
-
-                updateChartColors();
-            });
-
-            const ratings = {{ ratings|tojson }};
-            const pos = {{ data["Positive"] }};
-            const neg = {{ data["Negative"] }};
-
-            let ratingChart, sentimentChart;
-
-            function updateChartColors() {
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
-                const textColor = isDark ? '#f1f5f9' : '#666';
-
-                if (ratingChart) {
-                    ratingChart.options.scales.y.grid.color = gridColor;
-                    ratingChart.options.scales.x.ticks.color = textColor;
-                    ratingChart.options.scales.y.ticks.color = textColor;
-                    ratingChart.update();
-                }
-
-                if (sentimentChart) {
-                    sentimentChart.options.plugins.legend.labels.color = textColor;
-                    sentimentChart.update();
-                }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+              },
+              ticks: {
+                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+              }
             }
+          }
+        }
+      });
 
-            ratingChart = new Chart(document.getElementById("ratingChart"), {
-                type: "bar",
+      sentimentChart = new Chart(document.getElementById("sentimentChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["Positive", "Negative"],
+          datasets: [{
+            data: [pos, neg],
+            backgroundColor: [
+              "rgba(16, 185, 129, 0.9)",
+              "rgba(239, 68, 68, 0.9)"
+            ],
+            borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : 'white',
+            borderWidth: 3,
+            hoverBackgroundColor: [
+              "rgba(16, 185, 129, 1)",
+              "rgba(239, 68, 68, 1)"
+            ],
+            hoverOffset: 15,
+            hoverBorderWidth: 2
+          }]
+        },
+        options: {
+          cutout: "65%",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)',
+              titleColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+              bodyColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
+              borderWidth: 1,
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.parsed}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const viewDetailsBtn = document.getElementById('viewDetailsBtn');
+      if (viewDetailsBtn) {
+        viewDetailsBtn.addEventListener('click', function() {
+          const bug = {{ issue_distribution["Bug"] }};
+          const performance = {{ issue_distribution["Performance"] }};
+          const ui = {{ issue_distribution["UI"] }};
+          const feature = {{ issue_distribution["Feature"] }};
+
+          const modalHtml = `
+            <div class="modal fade" id="issueDetailsModal" tabindex="-1">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">
+                      <i class="fas fa-tags text-danger me-2"></i>
+                      Issue Tagging Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="mb-4">
+                          <h6 class="mb-3">Distribution Breakdown</h6>
+                          <canvas id="detailedIssueChart" height="200"></canvas>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h6 class="mb-3">Category Insights</h6>
+                        <div class="list-group">
+                          <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span><i class="fas fa-bug text-danger me-2"></i> Bugs</span>
+                              <span class="badge bg-danger">{{ issue_distribution["Bug"] }}%</span>
+                            </div>
+                            <small class="text-muted">Critical issues affecting app functionality</small>
+                          </div>
+                          <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span><i class="fas fa-tachometer-alt text-warning me-2"></i> Performance</span>
+                              <span class="badge bg-warning">{{ issue_distribution["Performance"] }}%</span>
+                            </div>
+                            <small class="text-muted">Speed, battery, and resource usage concerns</small>
+                          </div>
+                          <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span><i class="fas fa-palette text-primary me-2"></i> UI/UX</span>
+                              <span class="badge bg-primary">{{ issue_distribution["UI"] }}%</span>
+                            </div>
+                            <small class="text-muted">Design, navigation, and user experience issues</small>
+                          </div>
+                          <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span><i class="fas fa-lightbulb text-success me-2"></i> Feature Requests</span>
+                              <span class="badge bg-success">{{ issue_distribution["Feature"] }}%</span>
+                            </div>
+                            <small class="text-muted">User suggestions for new features</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <h6><i class="fas fa-chart-line me-2"></i> Analysis Summary</h6>
+                      <p class="text-muted mb-0">
+                        Based on {{ total_issues if total_issues else 100 }} analyzed reviews,
+                        the AI model has automatically categorized user feedback into relevant issue types.
+                        This helps prioritize development efforts and understand user pain points.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="exportReportBtn">
+                      <i class="fas fa-download me-1"></i> Export Report
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const existingModal = document.getElementById('issueDetailsModal');
+          if (existingModal) {
+            existingModal.remove();
+          }
+
+          document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+          const modal = new bootstrap.Modal(document.getElementById('issueDetailsModal'));
+          modal.show();
+
+          setTimeout(() => {
+            const detailedCtx = document.getElementById('detailedIssueChart');
+            if (detailedCtx) {
+              new Chart(detailedCtx, {
+                type: 'bar',
                 data: {
-                    labels: ["1★", "2★", "3★", "4★", "5★"],
-                    datasets: [{
-                        data: ratings,
-                        backgroundColor: ["#ef4444","#f97316","#eab308","#84cc16","#10b981"],
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        borderColor: 'rgba(255,255,255,0.8)'
-                    }]
+                  labels: ['Bug', 'Performance', 'UI/UX', 'Feature'],
+                  datasets: [{
+                    data: [bug, performance, ui, feature],
+                    backgroundColor: [
+                      'rgba(239, 68, 68, 0.8)',
+                      'rgba(245, 158, 11, 0.8)',
+                      'rgba(37, 99, 235, 0.8)',
+                      'rgba(16, 185, 129, 0.8)'
+                    ],
+                    borderRadius: 8,
+                    borderWidth: 1
+                  }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)',
-                            titleColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
-                            bodyColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#000' : '#fff',
-                            borderColor: '#2563eb',
-                            borderWidth: 1
+                  responsive: true,
+                  plugins: { legend: { display: false } },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      max: 100,
+                      ticks: {
+                        callback: function(value) {
+                          return value + '%';
                         }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
-                            },
-                            ticks: {
-                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
-                            }
-                        }
+                      }
                     }
+                  }
                 }
-            });
+              });
+            }
+          }, 300);
 
-            sentimentChart = new Chart(document.getElementById("sentimentChart"), {
-                type: "doughnut",
-                data: {
-                    labels: ["Positive", "Negative"],
-                    datasets: [{
-                        data: [pos, neg],
-                        backgroundColor: ["#10b981","#ef4444"],
-                        borderWidth: 3,
-                        borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : 'white'
-                    }]
-                },
-                options: {
-                    cutout: "65%",
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                pointStyle: 'circle',
-                                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${context.parsed}%`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+          document.getElementById('exportReportBtn')?.addEventListener('click', function() {
+            alert('Report export feature would be implemented here. This is a demo.');
+          });
+        });
+      }
 
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (!localStorage.getItem('theme')) {
-                    if (e.matches) {
-                        document.documentElement.setAttribute('data-theme', 'dark');
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    } else {
-                        document.documentElement.setAttribute('data-theme', 'light');
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                    }
-                    updateChartColors();
-                }
-            });
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+          if (e.matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+          }
+          updateChartColors();
+        }
+      });
     </script>
   </body>
 </html>

@@ -18,33 +18,6 @@
       --success: #4ade80;
       --gray: #6c757d;
       --light-gray: #e9ecef;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f5f7fa;
-      --text-primary: #212529;
-      --text-secondary: #64748b;
-      --card-bg: #ffffff;
-      --border-color: #e5e7eb;
-      --input-bg: #ffffff;
-    }
-
-    [data-theme="dark"] {
-      --primary: #4cc9f0;
-      --primary-dark: #3a0ca3;
-      --primary-light: #4361ee;
-      --secondary: #9d4edd;
-      --accent: #ff6b6b;
-      --light: #0f172a;
-      --dark: #f8f9fa;
-      --success: #4ade80;
-      --gray: #94a3b8;
-      --light-gray: #1e293b;
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --card-bg: #1e293b;
-      --border-color: #334155;
-      --input-bg: #334155;
     }
 
     * {
@@ -55,22 +28,20 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color: var(--text-primary);
+      color: var(--dark);
       line-height: 1.6;
-      background: var(--bg-primary);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
       min-height: 100vh;
       overflow-x: hidden;
-      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .navbar {
       padding: 1.2rem 0;
-      background: var(--card-bg) !important;
+      background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
       width: 100%;
       z-index: 1000;
-      transition: all 0.3s ease;
     }
 
     .navbar-brand {
@@ -87,27 +58,6 @@
     .navbar-brand i {
       margin-right: 10px;
       font-size: 1.8rem;
-    }
-
-    .theme-toggle {
-      background: var(--light-gray);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      margin-right: 15px;
-    }
-
-    .theme-toggle:hover {
-      background: var(--primary);
-      color: white;
-      transform: rotate(15deg);
     }
 
     .hero-search {
@@ -181,15 +131,14 @@
       text-align: center;
       position: relative;
       z-index: 1;
-      background: var(--card-bg);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px);
       padding: 4rem 3rem;
       border-radius: 32px;
       box-shadow: 
         0 20px 60px rgba(67, 97, 238, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .search-icon-large {
@@ -230,7 +179,7 @@
 
     .hero-subtitle {
       font-size: 1.2rem;
-      color: var(--text-secondary);
+      color: #64748b;
       margin-bottom: 3rem;
       max-width: 600px;
       margin-left: auto;
@@ -247,11 +196,10 @@
       width: 100%;
       padding: 1.4rem 1.5rem 1.4rem 3.5rem;
       border-radius: 16px;
-      border: 2px solid var(--border-color);
+      border: 2px solid rgba(67, 97, 238, 0.2);
       font-size: 1.1rem;
       transition: all 0.3s ease;
-      background: var(--input-bg);
-      color: var(--text-primary);
+      background: white;
       box-shadow: 0 8px 25px rgba(67, 97, 238, 0.1);
     }
 
@@ -281,33 +229,19 @@
       top: calc(100% + 8px);
       left: 0;
       right: 0;
-      background: var(--card-bg);
+      background: white;
       border-radius: 16px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
       max-height: 350px;
       overflow-y: auto;
       z-index: 1000;
       display: none;
-      border: 1px solid var(--border-color);
-    }
-
-    .suggestions-list::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .suggestions-list::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-      border-radius: 10px;
-    }
-
-    .suggestions-list::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
+      border: 1px solid rgba(67, 97, 238, 0.1);
     }
 
     .suggestion-item {
       padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -329,7 +263,7 @@
       border-radius: 10px;
       margin-right: 15px;
       object-fit: cover;
-      border: 2px solid var(--border-color);
+      border: 2px solid rgba(67, 97, 238, 0.1);
       flex-shrink: 0;
     }
 
@@ -341,13 +275,13 @@
     .app-name {
       font-weight: 600;
       font-size: 1.05rem;
-      color: var(--text-primary);
+      color: #1e293b;
       margin-bottom: 2px;
     }
 
     .app-developer {
       font-size: 0.85rem;
-      color: var(--text-secondary);
+      color: #64748b;
     }
 
     .analyze-btn-main {
@@ -414,7 +348,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: var(--text-secondary);
+      color: #64748b;
       font-size: 0.9rem;
       font-weight: 500;
     }
@@ -425,7 +359,7 @@
     }
 
     .process-divider {
-      color: var(--border-color);
+      color: #cbd5e1;
     }
 
     @media (max-width: 768px) {
@@ -439,12 +373,11 @@
     }
 
     .footer {
-      background: var(--light-gray);
-      color: var(--text-primary);
+      background: var(--dark);
+      color: white;
       text-align: center;
       padding: 2rem 0;
-      border-top: 1px solid var(--border-color);
-      transition: all 0.3s ease;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .footer-content {
@@ -455,7 +388,7 @@
 
     .footer p {
       margin-bottom: 0;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.8);
       font-size: 0.9rem;
     }
 
@@ -490,59 +423,308 @@
       margin-right: auto;
     }
 
-    .floating-info {
+    /* Toast Notification System */
+    .toast-container {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 1050;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      z-index: 100;
+      gap: 0.75rem;
+      max-width: 350px;
     }
 
-    .info-card {
-      background: var(--card-bg);
-      padding: 1rem 1.5rem;
+    .toast {
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      border-left: 4px solid var(--primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      padding: 1rem 1.25rem;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 1rem;
-      animation: slideIn 0.5s ease-out;
-      max-width: 300px;
-      border: 1px solid var(--border-color);
+      transform: translateX(400px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border-left: 4px solid var(--primary);
+      max-width: 100%;
     }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
     }
 
-    .info-card i {
+    .toast.hide {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+
+    .toast-icon {
       color: var(--primary);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      margin-top: 2px;
       flex-shrink: 0;
     }
 
-    .info-text {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
+    .toast-content {
+      flex: 1;
     }
 
-    .info-text strong {
-      color: var(--text-primary);
+    .toast-title {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+
+    .toast-message {
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 2px;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toast-close:hover {
+      color: var(--accent);
+    }
+
+    .toast.success {
+      border-left-color: var(--success);
+    }
+    .toast.success .toast-icon {
+      color: var(--success);
+    }
+
+    .toast.warning {
+      border-left-color: var(--accent);
+    }
+    .toast.warning .toast-icon {
+      color: var(--accent);
+    }
+
+    .toast.info {
+      border-left-color: var(--primary);
+    }
+    .toast.info .toast-icon {
+      color: var(--primary);
+    }
+
+    /* Toast Trigger Button */
+    .toast-trigger-btn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 1040;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+      transition: all 0.3s ease;
+      font-size: 1.3rem;
+    }
+
+    .toast-trigger-btn:hover {
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: 0 12px 30px rgba(67, 97, 238, 0.4);
+    }
+
+    .toast-trigger-btn i {
+      transition: transform 0.3s ease;
+    }
+
+    .toast-trigger-btn.active i {
+      transform: rotate(45deg);
+    }
+
+    /* Modal Popup */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-popup {
+      background: white;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .modal-overlay.show .modal-popup {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--accent);
+      background: rgba(247, 37, 133, 0.1);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-message {
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-features {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .modal-feature {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .modal-feature i {
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .modal-feature-text {
+      flex: 1;
+    }
+
+    .modal-feature-title {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-feature-desc {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-primary {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+    }
+
+    .modal-btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #e2e8f0;
     }
 
     @media (max-width: 768px) {
-      .floating-info {
-        display: none;
+      .toast-container {
+        bottom: 5rem;
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+      }
+      
+      .toast-trigger-btn {
+        bottom: 5rem;
+      }
+      
+      .modal-popup {
+        width: 95%;
+        max-height: 90vh;
       }
     }
   </style>
@@ -553,15 +735,10 @@
       <a class="navbar-brand" href="/">
         <i class="fas fa-chart-line"></i> SMARTVIEW
       </a>
-      <div class="d-flex align-items-center">
-        <button class="theme-toggle" id="themeToggle">
-          <i class="fas fa-moon"></i>
-        </button>
-        <div class="navbar-nav ms-auto">
-          <a href="/" class="nav-link">
-            <i class="fas fa-home me-1"></i> Home
-          </a>
-        </div>
+      <div class="navbar-nav ms-auto">
+        <a href="/" class="nav-link">
+          <i class="fas fa-home me-1"></i> Home
+        </a>
       </div>
     </div>
   </nav>
@@ -615,6 +792,65 @@
           </button>
         </form>
 
+        <!-- App Comparison Section -->
+        <div class="mt-5 pt-4 border-top" style="border-color: rgba(148, 163, 184, 0.3) !important;">
+          <h2 class="hero-title" style="font-size: 2.1rem; margin-bottom: 0.5rem;">
+            Compare two apps side-by-side
+          </h2>
+          <p class="hero-subtitle" style="margin-bottom: 2rem;">
+            Select any two apps from the Play Store and we will compare their ratings,
+            sentiment and issue hotspots using the same AI engine.
+          </p>
+
+          <form id="compareForm" action="/compare" method="post">
+            <div class="row g-3 align-items-stretch">
+              <div class="col-12 col-md-6">
+                <div class="search-box-main" style="margin-bottom: 1rem;">
+                  <i class="fas fa-mobile-alt search-icon-main"></i>
+                  <input
+                    type="text"
+                    id="compareAppSearch1"
+                    class="form-control search-input-main"
+                    placeholder="First app to compare"
+                    autocomplete="off"
+                  >
+                  <input type="hidden" name="app_id_1" id="compareSelectedAppId1">
+                  <div class="suggestions-container">
+                    <div id="compareSuggestions1" class="suggestions-list"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="search-box-main" style="margin-bottom: 1rem;">
+                  <i class="fas fa-mobile-alt search-icon-main"></i>
+                  <input
+                    type="text"
+                    id="compareAppSearch2"
+                    class="form-control search-input-main"
+                    placeholder="Second app to compare"
+                    autocomplete="off"
+                  >
+                  <input type="hidden" name="app_id_2" id="compareSelectedAppId2">
+                  <div class="suggestions-container">
+                    <div id="compareSuggestions2" class="suggestions-list"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-2">
+              <button type="submit" class="btn analyze-btn-main" id="compareButton" disabled>
+                <i class="fas fa-balance-scale"></i>
+                Compare Apps
+              </button>
+              <span class="text-muted" style="font-size: 0.85rem;">
+                Tip: Choose apps from the same category (e.g., music, banking) for clearer insights.
+              </span>
+            </div>
+          </form>
+        </div>
+
         <div class="ai-process">
           <div class="process-step">
             <i class="fas fa-search"></i>
@@ -640,26 +876,60 @@
     </div>
   </section>
 
-  <div class="floating-info">
-    <div class="info-card">
-      <i class="fas fa-bolt"></i>
-      <div class="info-text">
-        <strong>Real-time Results</strong><br>
-        Analysis completed in seconds
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Toast Trigger Button -->
+  <button class="toast-trigger-btn" id="toastTriggerBtn" title="Show tips">
+    <i class="fas fa-lightbulb"></i>
+  </button>
+
+  <!-- Modal Popup -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-popup">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fas fa-info-circle text-primary"></i>
+          Welcome to SMARTVIEW Analytics
+        </div>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
       </div>
-    </div>
-    <div class="info-card">
-      <i class="fas fa-robot"></i>
-      <div class="info-text">
-        <strong>AI-Powered</strong><br>
-        LSTM model for accurate sentiment
+      <div class="modal-body">
+        <div class="modal-message">
+          <p>Get instant insights into any app's performance and user sentiment. Our AI-powered platform analyzes thousands of reviews in seconds to give you actionable insights.</p>
+        </div>
+        
+        <div class="modal-features">
+          <div class="modal-feature">
+            <i class="fas fa-bolt"></i>
+            <div class="modal-feature-text">
+              <div class="modal-feature-title">Real-time Analysis</div>
+              <div class="modal-feature-desc">Processes reviews instantly with AI</div>
+            </div>
+          </div>
+          <div class="modal-feature">
+            <i class="fas fa-robot"></i>
+            <div class="modal-feature-text">
+              <div class="modal-feature-title">AI-Powered Insights</div>
+              <div class="modal-feature-desc">LSTM model for accurate sentiment detection</div>
+            </div>
+          </div>
+          <div class="modal-feature">
+            <i class="fas fa-shield-alt"></i>
+            <div class="modal-feature-text">
+              <div class="modal-feature-title">Privacy First</div>
+              <div class="modal-feature-desc">Your searches are not stored or tracked</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="info-card">
-      <i class="fas fa-shield-alt"></i>
-      <div class="info-text">
-        <strong>No Data Storage</strong><br>
-        Your searches are not stored
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-secondary" id="modalCancelBtn">
+          Got it, don't show again
+        </button>
+        <button class="modal-btn modal-btn-primary" id="modalStartBtn">
+          Start Exploring <i class="fas fa-arrow-right ms-2"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -676,62 +946,21 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const icon = themeToggle.querySelector('i');
-
-    // Check for saved theme or prefer-color-scheme
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const currentTheme = localStorage.getItem('theme');
-
-    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-    }
-
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        
-        if (currentTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-    });
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-            if (e.matches) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        }
-    });
-
-    // Search functionality
     const input = document.getElementById("appSearch");
     const suggestions = document.getElementById("suggestions");
     const hiddenInput = document.getElementById("selectedAppId");
     const analyzeButton = document.getElementById("analyzeButton");
     const loadingIndicator = document.getElementById("loadingIndicator");
     const form = document.getElementById("analyzeForm");
+
+    const compareInput1 = document.getElementById("compareAppSearch1");
+    const compareInput2 = document.getElementById("compareAppSearch2");
+    const compareHidden1 = document.getElementById("compareSelectedAppId1");
+    const compareHidden2 = document.getElementById("compareSelectedAppId2");
+    const compareSuggestions1 = document.getElementById("compareSuggestions1");
+    const compareSuggestions2 = document.getElementById("compareSuggestions2");
+    const compareButton = document.getElementById("compareButton");
+    const compareForm = document.getElementById("compareForm");
 
     let debounceTimer;
 
@@ -785,6 +1014,10 @@
                 
                 input.style.borderColor = "#4ade80";
                 input.style.boxShadow = "0 8px 25px rgba(74, 222, 128, 0.3)";
+                
+                // Show success toast
+                showToast('success', 'App Selected', `${app.name} has been selected for analysis. Click "Start Analysis" to proceed.`);
+                
                 setTimeout(() => {
                   input.style.borderColor = "";
                   input.style.boxShadow = "";
@@ -801,6 +1034,7 @@
             console.error('Error fetching suggestions:', error);
             loadingIndicator.style.display = "none";
             suggestions.style.display = "none";
+            showToast('warning', 'Search Error', 'Unable to fetch app suggestions. Please check your connection.');
           });
       }, 350);
     });
@@ -808,7 +1042,7 @@
     form.addEventListener("submit", (e) => {
       if (!hiddenInput.value && input.value.trim()) {
         e.preventDefault();
-        alert("Please select an app from the suggestions to proceed.");
+        showToast('warning', 'Select App', 'Please select an app from the suggestions to proceed.');
         input.focus();
         return;
       }
@@ -816,11 +1050,20 @@
       analyzeButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
       analyzeButton.disabled = true;
       analyzeButton.style.cursor = 'wait';
+      
+      // Show analyzing toast
+      showToast('info', 'Analysis Started', 'Fetching reviews and performing AI analysis. This may take a few seconds...');
     });
 
     document.addEventListener("click", (e) => {
       if (!input.contains(e.target) && !suggestions.contains(e.target)) {
         suggestions.style.display = "none";
+      }
+      if (!compareInput1.contains(e.target) && !compareSuggestions1.contains(e.target)) {
+        compareSuggestions1.style.display = "none";
+      }
+      if (!compareInput2.contains(e.target) && !compareSuggestions2.contains(e.target)) {
+        compareSuggestions2.style.display = "none";
       }
     });
 
@@ -840,8 +1083,254 @@
       }
     });
 
+    function setupCompareAutocomplete(sourceInput, hiddenField, suggestionBox) {
+      let localDebounce;
+
+      suggestionBox.addEventListener("mousedown", e => {
+        e.preventDefault();
+      });
+
+      sourceInput.addEventListener("input", () => {
+        const q = sourceInput.value.trim();
+
+        if (!q) {
+          hiddenField.value = "";
+          suggestionBox.style.display = "none";
+          updateCompareButtonState();
+          return;
+        }
+
+        clearTimeout(localDebounce);
+        localDebounce = setTimeout(() => {
+          fetch(`/search_app?q=${encodeURIComponent(q)}`)
+            .then(res => res.json())
+            .then(data => {
+              suggestionBox.innerHTML = "";
+
+              if (!data.length) {
+                suggestionBox.style.display = "none";
+                hiddenField.value = "";
+                updateCompareButtonState();
+                return;
+              }
+
+              data.forEach(app => {
+                const item = document.createElement("div");
+                item.className = "suggestion-item";
+                item.innerHTML = `
+                  <img src="${app.icon}" class="app-icon" alt="${app.name} icon">
+                  <div class="app-info">
+                    <div class="app-name">${app.name}</div>
+                    <div class="app-developer">${app.developer}</div>
+                  </div>
+                `;
+
+                item.addEventListener("click", () => {
+                  sourceInput.value = app.name;
+                  hiddenField.value = app.id;
+                  suggestionBox.style.display = "none";
+                  updateCompareButtonState();
+
+                  showToast('success', 'App Selected', `${app.name} added to comparison.`);
+                });
+
+                suggestionBox.appendChild(item);
+              });
+
+              suggestionBox.style.display = "block";
+            })
+            .catch(error => {
+              console.error('Error fetching suggestions:', error);
+              suggestionBox.style.display = "none";
+              hiddenField.value = "";
+              updateCompareButtonState();
+              showToast('warning', 'Search Error', 'Unable to fetch app suggestions. Please check your connection.');
+            });
+        }, 350);
+      });
+
+      sourceInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && suggestionBox.style.display === "block") {
+          e.preventDefault();
+          const firstSuggestion = suggestionBox.querySelector(".suggestion-item");
+          if (firstSuggestion) {
+            firstSuggestion.click();
+          }
+        }
+      });
+    }
+
+    function updateCompareButtonState() {
+      if (compareButton) {
+        compareButton.disabled = !(compareHidden1.value && compareHidden2.value);
+      }
+    }
+
+    if (compareInput1 && compareInput2) {
+      setupCompareAutocomplete(compareInput1, compareHidden1, compareSuggestions1);
+      setupCompareAutocomplete(compareInput2, compareHidden2, compareSuggestions2);
+    }
+
+    if (compareForm) {
+      compareForm.addEventListener('submit', (e) => {
+        if (!(compareHidden1.value && compareHidden2.value)) {
+          e.preventDefault();
+          showToast('warning', 'Select Two Apps', 'Please select two apps from the suggestions to compare.');
+          return;
+        }
+
+        compareButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Comparing...';
+        compareButton.disabled = true;
+      });
+    }
+
     window.addEventListener('load', () => {
       input.focus();
+      
+      // Check if modal should be shown (first visit)
+      if (!localStorage.getItem('smartview_welcome_shown')) {
+        setTimeout(() => {
+          showModal();
+        }, 1000);
+      }
+      
+      // Show initial toasts after a delay
+      setTimeout(() => {
+        showToast('info', 'Welcome!', 'Start by searching for any app to analyze its reviews.');
+      }, 1500);
+      
+      setTimeout(() => {
+        showToast('success', 'Quick Tip', 'Select an app from the dropdown for best results.');
+      }, 4000);
+    });
+
+    // Toast Notification System
+    const toastContainer = document.getElementById('toastContainer');
+    const toastTriggerBtn = document.getElementById('toastTriggerBtn');
+    let isToastsVisible = false;
+
+    function showToast(type, title, message) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon">
+          ${type === 'success' ? '<i class="fas fa-check-circle"></i>' : 
+            type === 'warning' ? '<i class="fas fa-exclamation-triangle"></i>' : 
+            '<i class="fas fa-info-circle"></i>'}
+        </div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="removeToast(this.parentElement)">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      
+      toastContainer.appendChild(toast);
+      
+      // Show toast with animation
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
+      
+      // Auto remove toast after 5 seconds
+      setTimeout(() => {
+        removeToast(toast);
+      }, 5000);
+      
+      // Show toast trigger button if hidden
+      if (!isToastsVisible) {
+        showAllToasts();
+      }
+    }
+
+    function removeToast(toast) {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => {
+        if (toast.parentElement) {
+          toast.parentElement.removeChild(toast);
+        }
+        // Hide trigger button if no toasts left
+        if (toastContainer.children.length === 0) {
+          hideAllToasts();
+        }
+      }, 300);
+    }
+
+    function showAllToasts() {
+      isToastsVisible = true;
+      toastTriggerBtn.classList.add('active');
+      const toasts = toastContainer.querySelectorAll('.toast');
+      toasts.forEach(toast => {
+        toast.classList.add('show');
+      });
+    }
+
+    function hideAllToasts() {
+      isToastsVisible = false;
+      toastTriggerBtn.classList.remove('active');
+      const toasts = toastContainer.querySelectorAll('.toast');
+      toasts.forEach(toast => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        setTimeout(() => {
+          if (toast.parentElement) {
+            toast.parentElement.removeChild(toast);
+          }
+        }, 300);
+      });
+    }
+
+    toastTriggerBtn.addEventListener('click', () => {
+      if (isToastsVisible) {
+        hideAllToasts();
+      } else {
+        showAllToasts();
+      }
+    });
+
+    // Modal Popup System
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+    const modalStartBtn = document.getElementById('modalStartBtn');
+
+    function showModal() {
+      modalOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideModal() {
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = 'auto';
+    }
+
+    function hideModalPermanently() {
+      hideModal();
+      localStorage.setItem('smartview_welcome_shown', 'true');
+    }
+
+    modalCloseBtn.addEventListener('click', hideModal);
+    modalCancelBtn.addEventListener('click', hideModalPermanently);
+    modalStartBtn.addEventListener('click', () => {
+      hideModalPermanently();
+      input.focus();
+    });
+
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        hideModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+        hideModal();
+      }
     });
   </script>
 </body>

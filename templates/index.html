@@ -1,745 +1,771 @@
+<!-- @format -->
+
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>SMARTVIEW - AI-Powered App Analytics</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a0ca3;
-      --primary-light: #4cc9f0;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --success: #4ade80;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8f9fa;
-      --text-primary: #212529;
-      --text-secondary: #6c757d;
-      --card-bg: #ffffff;
-      --border-color: #dee2e6;
-    }
-
-    [data-theme="dark"] {
-      --primary: #4cc9f0;
-      --primary-dark: #3a0ca3;
-      --primary-light: #4361ee;
-      --secondary: #9d4edd;
-      --accent: #ff6b6b;
-      --light: #121212;
-      --dark: #f8f9fa;
-      --success: #4ade80;
-      --gray: #adb5bd;
-      --light-gray: #2d3748;
-      --bg-primary: #121212;
-      --bg-secondary: #1a1a1a;
-      --text-primary: #f8f9fa;
-      --text-secondary: #adb5bd;
-      --card-bg: #1e1e1e;
-      --border-color: #2d3748;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-      width: 100%;
-      background-color: var(--bg-primary);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .navbar {
-      padding: 1rem 0;
-      background: var(--card-bg) !important;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-      width: 100%;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .navbar.scrolled {
-      padding: 0.8rem 0;
-    }
-
-    .navbar-brand {
-      font-size: 1.6rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: flex;
-      align-items: center;
-    }
-
-    .navbar-brand i {
-      margin-right: 8px;
-      font-size: 1.6rem;
-    }
-
-    .theme-toggle {
-      background: var(--light-gray);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    .theme-toggle:hover {
-      background: var(--primary);
-      color: white;
-      transform: rotate(15deg);
-    }
-
-    .nav-link {
-      font-weight: 500;
-      margin: 0 0.3rem;
-      color: var(--text-primary) !important;
-      transition: all 0.3s ease;
-      position: relative;
-      font-size: 0.95rem;
-    }
-
-    .nav-link:hover {
-      color: var(--primary) !important;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .nav-btn {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: white !important;
-      border-radius: 8px;
-      padding: 0.4rem 1.2rem !important;
-      margin-left: 0.5rem;
-      border: none;
-      font-size: 0.95rem;
-      white-space: nowrap;
-    }
-
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--light-gray) 100%);
-      padding-top: 80px;
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(114, 9, 183, 0.05));
-      top: -150px;
-      right: -100px;
-      z-index: 0;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(76, 201, 240, 0.1), rgba(247, 37, 133, 0.05));
-      bottom: -100px;
-      left: -50px;
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-    }
-
-    .hero-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1.2rem;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1.2;
-    }
-
-    .hero-subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.8rem;
-      width: 100%;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary-custom {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: white;
-      border: none;
-      padding: 0.9rem 2rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      flex: 1;
-      min-width: 160px;
-      max-width: 100%;
-    }
-
-    .btn-secondary-custom {
-      background: var(--card-bg);
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 0.9rem 2rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      flex: 1;
-      min-width: 160px;
-      max-width: 100%;
-    }
-
-    .btn-primary-custom:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
-      color: white;
-    }
-
-    .btn-secondary-custom:hover {
-      background: var(--primary);
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2);
-    }
-
-    .hero-image {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      padding: 0 15px;
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      object-fit: cover;
-    }
-
-    .features {
-      padding: 4rem 0;
-      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-      position: relative;
-      width: 100%;
-    }
-
-    .features::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.2), transparent);
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 0.8rem;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      position: relative;
-      display: inline-block;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 25%;
-      width: 50%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      border-radius: 3px;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 1rem;
-      max-width: 800px;
-      margin: 1.5rem auto 3rem;
-      line-height: 1.6;
-      padding: 0 15px;
-      width: 100%;
-    }
-
-    .feature-card-alt {
-      position: relative;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 2px;
-      height: 100%;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.08);
-      border: 1px solid var(--border-color);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-card-alt::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--secondary));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .feature-card-alt:hover::before {
-      opacity: 1;
-    }
-
-    .feature-card-inner {
-      background: var(--card-bg);
-      border-radius: 14px;
-      padding: 1.8rem 1.5rem;
-      height: 100%;
-      position: relative;
-      z-index: 2;
-    }
-
-    .feature-card-glow {
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      z-index: 1;
-    }
-
-    .feature-card-alt:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
-    }
-
-    .feature-card-alt:hover .feature-card-glow {
-      opacity: 1;
-    }
-
-    .feature-icon-wrapper {
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-icon-bg {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
-      position: relative;
-      transition: all 0.4s ease;
-      box-shadow: 0 8px 16px rgba(67, 97, 238, 0.2);
-    }
-
-    .feature-card-alt:hover .feature-icon-bg {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 12px 24px rgba(67, 97, 238, 0.3);
-    }
-
-    .feature-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      box-shadow: 0 3px 10px rgba(247, 37, 133, 0.3);
-      z-index: 3;
-      white-space: nowrap;
-    }
-
-    .feature-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-      position: relative;
-      padding-bottom: 10px;
-    }
-
-    .feature-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      border-radius: 3px;
-      transition: width 0.4s ease;
-    }
-
-    .feature-card-alt:hover .feature-title::after {
-      width: 60px;
-    }
-
-    .feature-desc {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-
-    .feature-stats {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .feature-stats span {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--bg-secondary);
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .feature-stats span i {
-      color: var(--primary);
-    }
-
-    .feature-card-alt:hover .feature-stats span {
-      background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1));
-      transform: translateY(-2px);
-    }
-
-    .how-it-works {
-      padding: 4rem 0;
-      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--light-gray) 100%);
-      width: 100%;
-    }
-
-    .step-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      height: 100%;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-      position: relative;
-      transition: all 0.3s ease;
-      margin-bottom: 1.5rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .step-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .step-number {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin: 0 auto 1.2rem;
-      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-    }
-
-    .step-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      color: var(--text-primary);
-    }
-
-    .step-desc {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .row {
-      margin-right: -15px;
-      margin-left: -15px;
-    }
-
-    .col-md-6, .col-lg-4, .col-lg-6 {
-      padding-right: 15px;
-      padding-left: 15px;
-    }
-
-    @media (max-width: 1200px) {
-      .hero-title {
-        font-size: 2.2rem;
-      }
-      .section-title {
-        font-size: 2rem;
-      }
-    }
-
-    @media (max-width: 992px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-      .hero-subtitle {
-        font-size: 1rem;
-      }
-      .section-title {
-        font-size: 1.8rem;
-      }
-      .feature-title, .step-title {
+  <head>
+    <meta charset="utf-8" />
+    <title>SMARTVIEW - AI-Powered App Analytics</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .step-number i {
         font-size: 1.2rem;
       }
-      .feature-desc, .step-desc {
-        font-size: 0.9rem;
-      }
-      .btn-primary-custom, .btn-secondary-custom {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.95rem;
-      }
-    }
 
-    @media (max-width: 768px) {
-      .hero {
-        min-height: auto;
-        padding: 100px 0 60px;
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a0ca3;
+        --primary-light: #4cc9f0;
+        --secondary: #7209b7;
+        --accent: #f72585;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #4ade80;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
       }
-      .hero-title {
-        font-size: 1.8rem;
-        text-align: center;
-      }
-      .hero-subtitle {
-        font-size: 0.95rem;
-        text-align: center;
-      }
-      .hero-buttons {
-        justify-content: center;
-        gap: 0.8rem;
-      }
-      .btn-primary-custom, .btn-secondary-custom {
-        min-width: 140px;
-        padding: 0.8rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      .hero-image {
-        margin-top: 2rem;
+
+      * {
+        margin: 0;
         padding: 0;
+        box-sizing: border-box;
       }
-      .features, .how-it-works {
-        padding: 3rem 0;
-      }
-      .section-title {
-        font-size: 1.6rem;
-        margin-bottom: 0.5rem;
-      }
-      .section-subtitle {
-        font-size: 0.9rem;
-        margin: 1rem auto 2rem;
-      }
-      .feature-card-inner {
-        padding: 1.5rem 1.2rem;
-      }
-      .step-card {
-        padding: 1.5rem;
-      }
-      .navbar-brand {
-        font-size: 1.4rem;
-      }
-      .nav-link {
-        margin: 0.2rem 0;
-        font-size: 0.9rem;
-      }
-      .nav-btn {
-        margin: 0.5rem 0 0;
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: var(--dark);
+        line-height: 1.6;
+        overflow-x: hidden;
         width: 100%;
       }
-    }
 
-    @media (max-width: 576px) {
-      .hero-title {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .navbar {
+        padding: 1rem 0;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        position: static;
+      }
+
+      .navbar-brand {
+        font-size: 1.6rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand i {
+        margin-right: 8px;
         font-size: 1.6rem;
       }
+
+      .nav-link {
+        font-weight: 500;
+        margin: 0 0.3rem;
+        color: var(--dark) !important;
+        transition: all 0.3s ease;
+        position: relative;
+        font-size: 0.95rem;
+      }
+
+      .nav-link:hover {
+        color: var(--primary) !important;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .nav-btn {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white !important;
+        border-radius: 8px;
+        padding: 0.4rem 1.2rem !important;
+        margin-left: 0.5rem;
+        border: none;
+        font-size: 0.95rem;
+        white-space: nowrap;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        padding-top: 0;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(67, 97, 238, 0.1),
+          rgba(114, 9, 183, 0.05)
+        );
+        top: -150px;
+        right: -100px;
+        z-index: 0;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(76, 201, 240, 0.1),
+          rgba(247, 37, 133, 0.05)
+        );
+        bottom: -100px;
+        left: -50px;
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.2rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        line-height: 1.2;
+      }
+
       .hero-subtitle {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
+        color: var(--gray);
+        margin-bottom: 1.8rem;
+        width: 100%;
       }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary-custom {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 0.9rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        flex: 1;
+        min-width: 160px;
+        max-width: 100%;
+      }
+
+      .btn-secondary-custom {
+        background: white;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        padding: 0.9rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        flex: 1;
+        min-width: 160px;
+        max-width: 100%;
+      }
+
+      .btn-primary-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        color: white;
+      }
+
+      .btn-secondary-custom:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2);
+      }
+
+      .hero-image {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        padding: 0 15px;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+      }
+
+      .features {
+        padding: 4rem 0;
+        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+        position: relative;
+        width: 100%;
+      }
+
+      .features::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(67, 97, 238, 0.2),
+          transparent
+        );
+      }
+
       .section-title {
-        font-size: 1.4rem;
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 0.8rem;
+        background: linear-gradient(90deg, #4361ee, #3a0ca3);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
       }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 25%;
+        width: 50%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #4361ee, transparent);
+        border-radius: 3px;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: #64748b;
+        font-size: 1rem;
+        max-width: 800px;
+        margin: 1.5rem auto 3rem;
+        line-height: 1.6;
+        padding: 0 15px;
+        width: 100%;
+      }
+
+      .feature-card-alt {
+        position: relative;
+        background: white;
+        border-radius: 16px;
+        padding: 2px;
+        height: 100%;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.08);
+        border: 1px solid rgba(67, 97, 238, 0.05);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card-alt::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4361ee, #4cc9f0, #7209b7);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .feature-card-alt:hover::before {
+        opacity: 1;
+      }
+
+      .feature-card-inner {
+        background: white;
+        border-radius: 14px;
+        padding: 1.8rem 1.5rem;
+        height: 100%;
+        position: relative;
+        z-index: 2;
+      }
+
+      .feature-card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(67, 97, 238, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        z-index: 1;
+      }
+
+      .feature-card-alt:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
+      }
+
+      .feature-card-alt:hover .feature-card-glow {
+        opacity: 1;
+      }
+
+      .feature-icon-wrapper {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
       .feature-icon-bg {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        position: relative;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 16px rgba(67, 97, 238, 0.2);
+      }
+
+      .feature-card-alt:hover .feature-icon-bg {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 24px rgba(67, 97, 238, 0.3);
+      }
+
+      .feature-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        box-shadow: 0 3px 10px rgba(247, 37, 133, 0.3);
+        z-index: 3;
+        white-space: nowrap;
+      }
+
+      .feature-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #1e293b;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .feature-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #4361ee, #4cc9f0);
+        border-radius: 3px;
+        transition: width 0.4s ease;
+      }
+
+      .feature-card-alt:hover .feature-title::after {
+        width: 60px;
+      }
+
+      .feature-desc {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      .feature-stats {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        padding-top: 1rem;
+        border-top: 1px solid #f1f5f9;
+      }
+
+      .feature-stats span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f8fafc;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: #475569;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .feature-stats span i {
+        color: #4361ee;
+      }
+
+      .feature-card-alt:hover .feature-stats span {
+        background: linear-gradient(
+          135deg,
+          rgba(67, 97, 238, 0.1),
+          rgba(76, 201, 240, 0.1)
+        );
+        transform: translateY(-2px);
+      }
+
+      .feature-card-alt:nth-child(1) .feature-icon-bg {
+        background: linear-gradient(135deg, #4361ee 0%, #4cc9f0 100%);
+      }
+      .feature-card-alt:nth-child(2) .feature-icon-bg {
+        background: linear-gradient(135deg, #7209b7 0%, #b5179e 100%);
+      }
+      .feature-card-alt:nth-child(3) .feature-icon-bg {
+        background: linear-gradient(135deg, #f72585 0%, #ff9e00 100%);
+      }
+      .feature-card-alt:nth-child(4) .feature-icon-bg {
+        background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+      }
+      .feature-card-alt:nth-child(5) .feature-icon-bg {
+        background: linear-gradient(135deg, #ff9e00 0%, #f72585 100%);
+      }
+      .feature-card-alt:nth-child(6) .feature-icon-bg {
+        background: linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%);
+      }
+
+      .how-it-works {
+        padding: 4rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        width: 100%;
+      }
+
+      .step-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        height: 100%;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        position: relative;
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .step-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .step-number {
         width: 50px;
         height: 50px;
-        font-size: 1.2rem;
-      }
-      .feature-title {
-        font-size: 1.1rem;
-      }
-      .feature-desc {
-        font-size: 0.85rem;
-      }
-      .step-number {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-      }
-      .step-title {
-        font-size: 1.1rem;
-      }
-      .step-desc {
-        font-size: 0.85rem;
-      }
-      .btn-primary-custom, .btn-secondary-custom {
-        min-width: 120px;
-        padding: 0.7rem 1rem;
-        font-size: 0.85rem;
-      }
-      .hero-buttons {
-        flex-direction: column;
-      }
-      .btn-primary-custom, .btn-secondary-custom {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
-    @media (max-width: 375px) {
-      .hero-title {
-        font-size: 1.4rem;
-      }
-      .hero-subtitle {
-        font-size: 0.85rem;
-      }
-      .section-title {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
         font-size: 1.3rem;
+        margin: 0 auto 1.2rem;
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
       }
-      .feature-card-inner {
-        padding: 1.2rem 1rem;
+
+      .step-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+        color: var(--dark);
       }
-      .feature-title {
-        font-size: 1rem;
+
+      .step-desc {
+        color: var(--gray);
+        line-height: 1.6;
+        font-size: 0.95rem;
       }
-      .feature-desc {
-        font-size: 0.8rem;
+
+      .row {
+        margin-right: -15px;
+        margin-left: -15px;
       }
-      .step-card {
-        padding: 1.2rem;
+
+      .col-md-6,
+      .col-lg-4,
+      .col-lg-6 {
+        padding-right: 15px;
+        padding-left: 15px;
       }
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <i class="fas fa-chart-line"></i> SMARTVIEW
-      </a>
-      
-      <div class="d-flex align-items-center">
-        <button class="theme-toggle" id="themeToggle">
-          <i class="fas fa-moon"></i>
-        </button>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+      @media (max-width: 1200px) {
+        .hero-title {
+          font-size: 2.2rem;
+        }
+        .section-title {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .hero-title {
+          font-size: 2rem;
+        }
+        .hero-subtitle {
+          font-size: 1rem;
+        }
+        .section-title {
+          font-size: 1.8rem;
+        }
+        .feature-title,
+        .step-title {
+          font-size: 1.2rem;
+        }
+        .feature-desc,
+        .step-desc {
+          font-size: 0.9rem;
+        }
+        .btn-primary-custom,
+        .btn-secondary-custom {
+          padding: 0.8rem 1.5rem;
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          min-height: auto;
+          padding: 60px 0;
+        }
+        .hero-title {
+          font-size: 1.8rem;
+          text-align: center;
+        }
+        .hero-subtitle {
+          font-size: 0.95rem;
+          text-align: center;
+        }
+        .hero-buttons {
+          justify-content: center;
+          gap: 0.8rem;
+        }
+        .btn-primary-custom,
+        .btn-secondary-custom {
+          min-width: 140px;
+          padding: 0.8rem 1.2rem;
+          font-size: 0.9rem;
+        }
+        .hero-image {
+          margin-top: 2rem;
+          padding: 0;
+        }
+        .features,
+        .how-it-works {
+          padding: 3rem 0;
+        }
+        .section-title {
+          font-size: 1.6rem;
+          margin-bottom: 0.5rem;
+        }
+        .section-subtitle {
+          font-size: 0.9rem;
+          margin: 1rem auto 2rem;
+        }
+        .feature-card-inner {
+          padding: 1.5rem 1.2rem;
+        }
+        .step-card {
+          padding: 1.5rem;
+        }
+        .navbar-brand {
+          font-size: 1.4rem;
+        }
+        .nav-link {
+          margin: 0.2rem 0;
+          font-size: 0.9rem;
+        }
+        .nav-btn {
+          margin: 0.5rem 0 0;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero-title {
+          font-size: 1.6rem;
+        }
+        .hero-subtitle {
+          font-size: 0.9rem;
+        }
+        .section-title {
+          font-size: 1.4rem;
+        }
+        .feature-icon-bg {
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+        .feature-title {
+          font-size: 1.1rem;
+        }
+        .feature-desc {
+          font-size: 0.85rem;
+        }
+        .step-number {
+          width: 45px;
+          height: 45px;
+          font-size: 1.1rem;
+        }
+        .step-title {
+          font-size: 1.1rem;
+        }
+        .step-desc {
+          font-size: 0.85rem;
+        }
+        .btn-primary-custom,
+        .btn-secondary-custom {
+          min-width: 120px;
+          padding: 0.7rem 1rem;
+          font-size: 0.85rem;
+        }
+        .hero-buttons {
+          flex-direction: column;
+        }
+        .btn-primary-custom,
+        .btn-secondary-custom {
+          width: 100%;
+          max-width: 280px;
+        }
+      }
+
+      @media (max-width: 375px) {
+        .hero-title {
+          font-size: 1.4rem;
+        }
+        .hero-subtitle {
+          font-size: 0.85rem;
+        }
+        .section-title {
+          font-size: 1.3rem;
+        }
+        .feature-card-inner {
+          padding: 1.2rem 1rem;
+        }
+        .feature-title {
+          font-size: 1rem;
+        }
+        .feature-desc {
+          font-size: 0.8rem;
+        }
+        .step-card {
+          padding: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-chart-line"></i>
+          SMARTVIEW
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto align-items-lg-center">
             <li class="nav-item">
@@ -749,325 +775,375 @@
               <a class="nav-link" href="#features">Features</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#how-it-works">How It Works</a>
+              <a class="nav-link" href="#help">Help</a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-btn" href="search">
-                <i class="fas fa-rocket me-1"></i> Get Started
+                <i class="fas fa-rocket me-1"></i>
+                Get Started
               </a>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <section class="hero" id="home">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6 order-lg-1 order-2">
-          <div class="hero-content">
-            <h1 class="hero-title">AI-Powered App Insights & Analytics</h1>
-            <p class="hero-subtitle">
-              Unlock real-time sentiment insights, rating analysis, and user feedback trends.
-              Make data-driven decisions with SMARTVIEW's AI-enhanced analytics platform.
-            </p>
-            <div class="hero-buttons">
-              <a href="search" class="btn btn-primary-custom">
-                <i class="fas fa-play-circle"></i> Get Started
-              </a>
-              <a href="#demo" class="btn btn-secondary-custom">
-                <i class="fas fa-eye"></i> View Demo
-              </a>
-            </div>
-            <div class="mt-4">
-              <p class="text-muted mb-2"><small>Supported Sources</small></p>
-              <div class="d-flex flex-wrap gap-3 align-items-center">
-                <span class="text-muted">Google Play Store</span>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 order-lg-1 order-2">
+            <div class="hero-content">
+              <h1 class="hero-title">AI-Powered App Insights & Analytics</h1>
+              <p class="hero-subtitle">
+                Unlock real-time sentiment insights, rating analysis, and user
+                feedback trends. Make data-driven decisions with SMARTVIEW's
+                AI-enhanced analytics platform.
+              </p>
+              <div class="hero-buttons">
+                <a href="search" class="btn btn-primary-custom">
+                  <i class="fas fa-play-circle"></i>
+                  Get Started
+                </a>
+                <a href="#demo" class="btn btn-secondary-custom" id="viewDemoBtn">
+                  <i class="fas fa-eye"></i>
+                  View Demo
+                </a>
+              </div>
+              <div class="mt-4">
+                <p class="text-muted mb-2"><small>Supported Sources</small></p>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <span class="text-muted">Google Play Store</span>
+                </div>
               </div>
             </div>
           </div>
+          <div class="col-lg-6 order-lg-2 order-1">
+            <div class="hero-image text-center">
+              <img
+                src="static/hero.jpg"
+                alt="App Analytics Dashboard"
+                class="img-fluid"
+              />
+            </div>
+          </div>
         </div>
-        <div class="col-lg-6 order-lg-2 order-1">
-          <div class="hero-image text-center">
-            <img 
-              src="static/hero.jpg" 
-              alt="App Analytics Dashboard" 
-              class="img-fluid"
-            >
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">Powerful Features</h2>
+        <p class="section-subtitle">
+          SMARTVIEW gives you fast, accurate, and real-time insights from Google
+          Play user reviews - powered directly by your optimized LSTM sentiment
+          engine.
+        </p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-cloud-download-alt"></i>
+                  </div>
+                  <div class="feature-badge">Live</div>
+                </div>
+                <h3 class="feature-title">Live Review Scraping</h3>
+                <p class="feature-desc">
+                  Fetches the latest Google Play reviews instantly using direct
+                  Play Store API scraping - always fresh, uncached, and
+                  real-time.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-sync-alt"></i>
+                    Real-time
+                  </span>
+                  <span>
+                    <i class="fas fa-database"></i>
+                    Uncached
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-brain"></i>
+                  </div>
+                  <div class="feature-badge">AI</div>
+                </div>
+                <h3 class="feature-title">AI Sentiment Detection</h3>
+                <p class="feature-desc">
+                  Deep-learning LSTM classifies reviews as positive or negative
+                  with optimized performance and vectorized prediction.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-chart-line"></i>
+                    95% Accuracy
+                  </span>
+                  <span>
+                    <i class="fas fa-bolt"></i>
+                    LSTM
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <div class="feature-badge">Stats</div>
+                </div>
+                <h3 class="feature-title">Rating Distribution</h3>
+                <p class="feature-desc">
+                  Automatically extracts 1⭐ to 5⭐ rating breakdown to give a
+                  clear overview of user satisfaction trends.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-chart-pie"></i>
+                    Breakdown
+                  </span>
+                  <span>
+                    <i class="fas fa-trend-up"></i>
+                    Trends
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-comments"></i>
+                  </div>
+                  <div class="feature-badge">Examples</div>
+                </div>
+                <h3 class="feature-title">Review Highlights</h3>
+                <p class="feature-desc">
+                  Displays curated positive and negative review samples to
+                  instantly understand what users talk about most.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-thumbs-up"></i>
+                    Positive
+                  </span>
+                  <span>
+                    <i class="fas fa-thumbs-down"></i>
+                    Negative
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-balance-scale"></i>
+                  </div>
+                  <div class="feature-badge">New</div>
+                </div>
+                <h3 class="feature-title">App Comparison</h3>
+                <p class="feature-desc">
+                  Instantly compare two apps side-by-side: ratings, sentiment, review trends, and key issues. Make smarter choices with visual analytics.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-exchange-alt"></i>
+                    Side-by-side
+                  </span>
+                  <span>
+                    <i class="fas fa-chart-bar"></i>
+                    Visual Insights
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card-alt">
+              <div class="feature-card-inner">
+                <div class="feature-icon-wrapper">
+                  <div class="feature-icon-bg">
+                    <i class="fas fa-search"></i>
+                  </div>
+                  <div class="feature-badge">Smart</div>
+                </div>
+                <h3 class="feature-title">Smart App Search</h3>
+                <p class="feature-desc">
+                  Intelligent app search with icons, developer info, and
+                  suggestion dropdown powered by Play Store's live metadata.
+                </p>
+                <div class="feature-stats">
+                  <span>
+                    <i class="fas fa-magic"></i>
+                    Auto-suggest
+                  </span>
+                  <span>
+                    <i class="fas fa-image"></i>
+                    Icons
+                  </span>
+                </div>
+              </div>
+              <div class="feature-card-glow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works" id="help">
+      <div class="container">
+        <h2 class="section-title">Help & Support</h2>
+        <p class="section-subtitle">
+          Need assistance using SMARTVIEW? Here are quick answers to the most
+          common questions to get you up and running fast.
+        </p>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">
+                <i class="fas fa-search"></i>
+              </div>
+              <h3 class="step-title">How do I search an app?</h3>
+              <p class="step-desc">
+                Use the search bar to start typing an app name. SMARTVIEW will
+                auto-suggest live Google Play apps with icons and developer
+                details.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">
+                <i class="fas fa-sync-alt"></i>
+              </div>
+              <h3 class="step-title">Are reviews real-time?</h3>
+              <p class="step-desc">
+                Yes. Reviews are fetched live from Google Play every time you
+                run an analysis. No cached or outdated data is used.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">
+                <i class="fas fa-brain"></i>
+              </div>
+              <h3 class="step-title">How accurate is sentiment analysis?</h3>
+              <p class="step-desc">
+                SMARTVIEW uses an optimized LSTM deep-learning model trained on
+                real app reviews, delivering high-accuracy sentiment
+                predictions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Video Modal -->
+    <div
+      class="modal fade"
+      id="demoModal"
+      tabindex="-1"
+      aria-labelledby="demoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="demoModalLabel">SMARTVIEW Demo</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="ratio ratio-16x9">
+              <video id="demoVideo" controls>
+                <source src="static/demo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <section class="features" id="features">
-    <div class="container">
-      <h2 class="section-title">Powerful Features</h2>
-      <p class="section-subtitle">
-        SMARTVIEW gives you fast, accurate, and real-time insights from Google Play user reviews - powered directly by your optimized LSTM sentiment engine.
-      </p>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-cloud-download-alt"></i>
-                </div>
-                <div class="feature-badge">Live</div>
-              </div>
-              <h3 class="feature-title">Live Review Scraping</h3>
-              <p class="feature-desc">
-                Fetches the latest Google Play reviews instantly using direct Play Store API scraping - always fresh, uncached, and real-time.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-sync-alt"></i> Real-time</span>
-                <span><i class="fas fa-database"></i> Uncached</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-brain"></i>
-                </div>
-                <div class="feature-badge">AI</div>
-              </div>
-              <h3 class="feature-title">AI Sentiment Detection</h3>
-              <p class="feature-desc">
-                Deep-learning LSTM classifies reviews as positive or negative with optimized performance and vectorized prediction.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-chart-line"></i> 95% Accuracy</span>
-                <span><i class="fas fa-bolt"></i> LSTM</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-star-half-alt"></i>
-                </div>
-                <div class="feature-badge">Stats</div>
-              </div>
-              <h3 class="feature-title">Rating Distribution</h3>
-              <p class="feature-desc">
-                Automatically extracts 1⭐ to 5⭐ rating breakdown to give a clear overview of user satisfaction trends.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-chart-pie"></i> Breakdown</span>
-                <span><i class="fas fa-trend-up"></i> Trends</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-comments"></i>
-                </div>
-                <div class="feature-badge">Examples</div>
-              </div>
-              <h3 class="feature-title">Review Highlights</h3>
-              <p class="feature-desc">
-                Displays curated positive and negative review samples to instantly understand what users talk about most.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-thumbs-up"></i> Positive</span>
-                <span><i class="fas fa-thumbs-down"></i> Negative</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-rocket"></i>
-                </div>
-                <div class="feature-badge">Fast</div>
-              </div>
-              <h3 class="feature-title">High-Speed Processing</h3>
-              <p class="feature-desc">
-                Zero-delay model loading, batch prediction, and optimized text cleaning ensure results in seconds.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-bolt"></i> < 20s</span>
-                <span><i class="fas fa-server"></i> Batch</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="feature-card-alt">
-            <div class="feature-card-inner">
-              <div class="feature-icon-wrapper">
-                <div class="feature-icon-bg">
-                  <i class="fas fa-search"></i>
-                </div>
-                <div class="feature-badge">Smart</div>
-              </div>
-              <h3 class="feature-title">Smart App Search</h3>
-              <p class="feature-desc">
-                Intelligent app search with icons, developer info, and suggestion dropdown powered by Play Store's live metadata.
-              </p>
-              <div class="feature-stats">
-                <span><i class="fas fa-magic"></i> Auto-suggest</span>
-                <span><i class="fas fa-image"></i> Icons</span>
-              </div>
-            </div>
-            <div class="feature-card-glow"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">
-        Get fast, accurate insights from Google Play reviews in three simple steps - powered by real-time scraping and AI sentiment analysis.
-      </p>
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <h3 class="step-title">Search & Select the App</h3>
-            <p class="step-desc">
-              Start typing any app name, and our smart autocomplete fetches real Play Store apps with icons and developer info. 
-              Select the correct app to begin analysis.
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <h3 class="step-title">Fetch Reviews Instantly</h3>
-            <p class="step-desc">
-              SMARTVIEW scrapes the latest user reviews directly from Google Play - no caching, no delays - and prepares the data for AI processing.
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <h3 class="step-title">AI Sentiment Analysis</h3>
-            <p class="step-desc">
-              Our optimized LSTM model runs high-speed predictions on all reviews, identifying positive and negative sentiment and generating a clear, visual dashboard.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const icon = themeToggle.querySelector('i');
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
 
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const currentTheme = localStorage.getItem('theme');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
 
-    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-    }
+      // Handle demo video modal
+      const demoBtn = document.getElementById("viewDemoBtn");
+      const demoModalEl = document.getElementById("demoModal");
+      const demoVideo = document.getElementById("demoVideo");
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        
-        if (currentTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-    });
+      if (demoBtn && demoModalEl && demoVideo) {
+        const demoModal = new bootstrap.Modal(demoModalEl);
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-            if (e.matches) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        }
-    });
+        demoBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          demoModal.show();
+          demoVideo.currentTime = 0;
+          demoVideo.play().catch(() => {});
+        });
 
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+        demoModalEl.addEventListener("hidden.bs.modal", function () {
+          demoVideo.pause();
+        });
       }
-    });
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
-          });
-        }
+      document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          const navbarCollapse = document.getElementById("navbarNav");
+          if (navbarCollapse.classList.contains("show")) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+            bsCollapse.hide();
+          }
+        });
       });
-    });
-
-    document.querySelectorAll('a[href="#demo"]').forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        alert('Demo request sent! Our team will contact you shortly to schedule a personalized demo.');
-      });
-    });
-
-    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        const navbarCollapse = document.getElementById('navbarNav');
-        if (navbarCollapse.classList.contains('show')) {
-          const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-          bsCollapse.hide();
-        }
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

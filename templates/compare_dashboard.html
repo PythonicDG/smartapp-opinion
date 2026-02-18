@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMARTVIEW - Compare Apps</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      :root {
+        --bg-primary: #f5f7fb;
+        --bg-secondary: #ffffff;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        --navbar-bg: #ffffff;
+        --navbar-border: #e5e7eb;
+        --metric-bg: #f3f4f6;
+        --accent-primary: #2563eb;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #2563eb, #3b82f6);
+      }
+
+      [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        --navbar-bg: #1e293b;
+        --navbar-border: #334155;
+        --metric-bg: #334155;
+        --accent-primary: #3b82f6;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #1e40af, #2563eb);
+      }
+
+      body {
+        background: var(--bg-primary);
+        font-family: "Inter", sans-serif;
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        background: var(--navbar-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .navbar-brand {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--accent-primary);
+      }
+
+      .back-button {
+        background: var(--metric-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .back-button:hover {
+        background: var(--border-color);
+        color: var(--text-primary);
+      }
+
+      .theme-toggle {
+        background: var(--metric-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .comparison-header {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .comparison-header h1 {
+        font-size: 1.7rem;
+        font-weight: 700;
+      }
+
+      [data-theme="dark"] .comparison-header .text-muted {
+        color: #f9fafb !important;
+      }
+
+      .app-meta-card {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        padding: 1.25rem 1.5rem;
+        height: 100%;
+      }
+
+      .app-meta-header {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .app-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        object-fit: cover;
+        border: 3px solid rgba(37, 99, 235, 0.15);
+      }
+
+      .app-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .badge-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+      }
+
+      .score-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(37, 99, 235, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .score-circle .value {
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+
+      .metric-pill {
+        background: var(--metric-bg);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .metric-pill strong {
+        font-weight: 700;
+      }
+
+      .card-section {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        padding: 1rem 1.25rem;
+        height: 100%;
+      }
+
+      .card-section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      .chart-wrapper {
+        height: 260px;
+      }
+
+      .kpi-card {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        padding: 0.9rem 1.1rem;
+      }
+
+      .kpi-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.2rem;
+      }
+
+      .kpi-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      .kpi-sub {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .verdict-card {
+        background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+        border-radius: 18px;
+        padding: 1.2rem 1.5rem;
+        border: 1px solid rgba(37, 99, 235, 0.15);
+        box-shadow: var(--card-shadow);
+      }
+
+      .winner-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: rgba(16, 185, 129, 0.1);
+        color: #047857;
+      }
+
+      @media (max-width: 991px) {
+        .comparison-header {
+          margin-bottom: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid px-3 px-md-4">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-chart-line me-2"></i> SMARTVIEW
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-2">
+          <a href="/search" class="back-button me-2">
+            <i class="fas fa-arrow-left"></i>
+            Back to Search
+          </a>
+          <button class="theme-toggle" id="themeToggle" type="button">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid px-3 px-md-4 mt-3 mb-4">
+      <div
+        class="comparison-header d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3"
+      >
+        <div>
+          <h1 class="mb-1">
+            Compare Apps <span class="text-primary">side-by-side</span>
+          </h1>
+          <p class="text-muted mb-0" style="font-size: 0.9rem">
+            Using the same AI-powered analysis as the main dashboard, compare
+            sentiment, ratings, review volume and stability between both apps.
+          </p>
+        </div>
+        <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
+          {% if winner == "app_a" %}
+            <div class="winner-badge">
+              <i class="fas fa-trophy"></i>
+              Top pick:
+              <span>{{ app_a.meta.title }}</span>
+            </div>
+          {% elif winner == "app_b" %}
+            <div class="winner-badge">
+              <i class="fas fa-trophy"></i>
+              Top pick:
+              <span>{{ app_b.meta.title }}</span>
+            </div>
+          {% else %}
+            <div class="winner-badge" style="background: rgba(59,130,246,0.1); color: #1d4ed8;">
+              <i class="fas fa-scale-balanced"></i>
+              Both apps show similar overall health
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Meta & headline stats -->
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-lg-6">
+          <div class="app-meta-card h-100">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="app-meta-header">
+                <img
+                  src="{{ app_a.meta.icon }}"
+                  alt="{{ app_a.meta.title }} icon"
+                  class="app-icon"
+                />
+                <div>
+                  <div class="badge-label text-secondary mb-1">App A</div>
+                  <div class="app-title">{{ app_a.meta.title }}</div>
+                  <div class="text-secondary" style="font-size: 0.85rem">
+                    {{ app_a.meta.developer }} · {{ app_a.meta.genre }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="score-circle mb-1">
+                  <div class="value">{{ app_a.health_score }}</div>
+                  <div>Health</div>
+                </div>
+                <div class="metric-pill mt-1">
+                  <i class="fas fa-star text-warning"></i>
+                  <span>
+                    <strong>{{ app_a.meta.score }}</strong>
+                    <span class="text-secondary">/ 5.0</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-2" style="font-size: 0.8rem">
+              <span class="metric-pill">
+                <i class="fas fa-download text-primary"></i>
+                <span>Installs: <strong>{{ app_a.meta.installs }}</strong></span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-comment-dots text-success"></i>
+                <span>Reviews analysed: <strong>{{ app_a.review_count }}</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="app-meta-card h-100">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="app-meta-header">
+                <img
+                  src="{{ app_b.meta.icon }}"
+                  alt="{{ app_b.meta.title }} icon"
+                  class="app-icon"
+                />
+                <div>
+                  <div class="badge-label text-secondary mb-1">App B</div>
+                  <div class="app-title">{{ app_b.meta.title }}</div>
+                  <div class="text-secondary" style="font-size: 0.85rem">
+                    {{ app_b.meta.developer }} · {{ app_b.meta.genre }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="score-circle mb-1">
+                  <div class="value">{{ app_b.health_score }}</div>
+                  <div>Health</div>
+                </div>
+                <div class="metric-pill mt-1">
+                  <i class="fas fa-star text-warning"></i>
+                  <span>
+                    <strong>{{ app_b.meta.score }}</strong>
+                    <span class="text-secondary">/ 5.0</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-2" style="font-size: 0.8rem">
+              <span class="metric-pill">
+                <i class="fas fa-download text-primary"></i>
+                <span>Installs: <strong>{{ app_b.meta.installs }}</strong></span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-comment-dots text-success"></i>
+                <span>Reviews analysed: <strong>{{ app_b.review_count }}</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1) Overall Sentiment & 2) Rating Distribution -->
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-lg-6">
+          <div class="card-section h-100">
+            <div class="card-section-title">
+              <i class="fas fa-face-smile text-success me-2"></i>
+              Overall Sentiment Comparison
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="sentimentCompareChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="card-section h-100">
+            <div class="card-section-title">
+              <i class="fas fa-star-half-alt text-warning me-2"></i>
+              Rating Distribution (1–5 stars)
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="ratingCompareChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3) Monthly Volume & 4) Top Issues -->
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-lg-6">
+          <div class="card-section h-100">
+            <div class="card-section-title">
+              <i class="fas fa-chart-line text-primary me-2"></i>
+              Review Volume & Growth (monthly)
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="volumeCompareChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="card-section h-100">
+            <div class="card-section-title">
+              <i class="fas fa-triangle-exclamation text-danger me-2"></i>
+              Top Issues & Complaints
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="issuesCompareChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5) Review length & engagement + Final verdict -->
+      <div class="row g-3">
+        <div class="col-12 col-lg-4">
+          <div class="kpi-card mb-2">
+            <div class="kpi-label">Avg review length (words)</div>
+            <div class="d-flex justify-content-between align-items-end">
+              <div>
+                <div class="kpi-value">{{ app_a.avg_review_length }}</div>
+                <div class="kpi-sub">{{ app_a.meta.title }}</div>
+              </div>
+              <div class="text-end">
+                <div class="kpi-value">{{ app_b.avg_review_length }}</div>
+                <div class="kpi-sub">{{ app_b.meta.title }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total review count</div>
+            <div class="d-flex justify-content-between align-items-end">
+              <div>
+                <div class="kpi-value">{{ app_a.review_count }}</div>
+                <div class="kpi-sub">{{ app_a.meta.title }}</div>
+              </div>
+              <div class="text-end">
+                <div class="kpi-value">{{ app_b.review_count }}</div>
+                <div class="kpi-sub">{{ app_b.meta.title }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-8">
+          <div class="verdict-card h-100">
+            <div class="d-flex align-items-center mb-2">
+              <i class="fas fa-lightbulb text-warning me-2"></i>
+              <span class="fw-semibold">Final Verdict</span>
+            </div>
+            <p class="mb-0" style="font-size: 0.95rem; color: #111827;">
+              {{ verdict }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+        } else {
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+        }
+      }
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        localStorage.setItem('theme', next);
+        updateChartColors();
+      });
+
+      const appA = {{ app_a|tojson | safe }};
+      const appB = {{ app_b|tojson | safe }};
+
+      let sentimentChart, ratingChart, volumeChart, issuesChart;
+
+      function baseTooltipColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return {
+          bg: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.85)',
+          text: isDark ? '#000' : '#fff'
+        };
+      }
+
+      function createCharts() {
+        const tooltipColors = baseTooltipColors();
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+        const textColor = isDark ? '#f1f5f9' : '#4b5563';
+
+        // 1) Sentiment comparison
+        const sentimentCtx = document.getElementById('sentimentCompareChart');
+        if (sentimentCtx) {
+          sentimentChart = new Chart(sentimentCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Positive', 'Negative'],
+              datasets: [
+                {
+                  label: appA.meta.title || 'App A',
+                  data: [appA.sentiment.positive_pct, appA.sentiment.negative_pct],
+                  backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                },
+                {
+                  label: appB.meta.title || 'App B',
+                  data: [appB.sentiment.positive_pct, appB.sentiment.negative_pct],
+                  backgroundColor: 'rgba(59, 130, 246, 0.8)'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                tooltip: {
+                  backgroundColor: tooltipColors.bg,
+                  titleColor: tooltipColors.text,
+                  bodyColor: tooltipColors.text,
+                  callbacks: {
+                    label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
+                  }
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: textColor },
+                  grid: { display: false }
+                },
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: textColor },
+                  grid: { color: gridColor }
+                }
+              }
+            }
+          });
+        }
+
+        // 2) Rating distribution comparison
+        const ratingCtx = document.getElementById('ratingCompareChart');
+        if (ratingCtx) {
+          ratingChart = new Chart(ratingCtx, {
+            type: 'bar',
+            data: {
+              labels: ['1★', '2★', '3★', '4★', '5★'],
+              datasets: [
+                {
+                  label: appA.meta.title || 'App A',
+                  data: appA.ratings || [0,0,0,0,0],
+                  backgroundColor: 'rgba(234, 179, 8, 0.8)'
+                },
+                {
+                  label: appB.meta.title || 'App B',
+                  data: appB.ratings || [0,0,0,0,0],
+                  backgroundColor: 'rgba(96, 165, 250, 0.8)'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                tooltip: {
+                  backgroundColor: tooltipColors.bg,
+                  titleColor: tooltipColors.text,
+                  bodyColor: tooltipColors.text
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: textColor },
+                  grid: { display: false }
+                },
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: textColor },
+                  grid: { color: gridColor }
+                }
+              }
+            }
+          });
+        }
+
+        // 3) Monthly volume comparison
+        const volCtx = document.getElementById('volumeCompareChart');
+        if (volCtx) {
+          const volA = appA.monthly_volume || {};
+          const volB = appB.monthly_volume || {};
+          const monthSet = new Set([...Object.keys(volA), ...Object.keys(volB)]);
+          const months = Array.from(monthSet).sort();
+          const dataA = months.map(m => volA[m] || 0);
+          const dataB = months.map(m => volB[m] || 0);
+
+          volumeChart = new Chart(volCtx, {
+            type: 'line',
+            data: {
+              labels: months,
+              datasets: [
+                {
+                  label: appA.meta.title || 'App A',
+                  data: dataA,
+                  borderColor: 'rgba(37, 99, 235, 0.9)',
+                  backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                  tension: 0.25,
+                  fill: true
+                },
+                {
+                  label: appB.meta.title || 'App B',
+                  data: dataB,
+                  borderColor: 'rgba(16, 185, 129, 0.9)',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  tension: 0.25,
+                  fill: true
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                tooltip: {
+                  backgroundColor: tooltipColors.bg,
+                  titleColor: tooltipColors.text,
+                  bodyColor: tooltipColors.text
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: textColor },
+                  grid: { display: false }
+                },
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: textColor },
+                  grid: { color: gridColor }
+                }
+              }
+            }
+          });
+        }
+
+        // 4) Issues comparison
+        const issuesCtx = document.getElementById('issuesCompareChart');
+        if (issuesCtx) {
+          const categories = ['Bug', 'Performance', 'UI', 'Feature'];
+          const issuesA = appA.issues || {};
+          const issuesB = appB.issues || {};
+          const dataA = categories.map(c => issuesA[c] || 0);
+          const dataB = categories.map(c => issuesB[c] || 0);
+
+          issuesChart = new Chart(issuesCtx, {
+            type: 'bar',
+            data: {
+              labels: categories,
+              datasets: [
+                {
+                  label: appA.meta.title || 'App A',
+                  data: dataA,
+                  backgroundColor: 'rgba(248, 113, 113, 0.85)'
+                },
+                {
+                  label: appB.meta.title || 'App B',
+                  data: dataB,
+                  backgroundColor: 'rgba(251, 146, 60, 0.85)'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                tooltip: {
+                  backgroundColor: tooltipColors.bg,
+                  titleColor: tooltipColors.text,
+                  bodyColor: tooltipColors.text,
+                  callbacks: {
+                    label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
+                  }
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: textColor },
+                  grid: { display: false }
+                },
+                y: {
+                  beginAtZero: true,
+                  max: 100,
+                  ticks: {
+                    color: textColor,
+                    callback: (v) => v + '%'
+                  },
+                  grid: { color: gridColor }
+                }
+              }
+            }
+          });
+        }
+      }
+
+      function updateChartColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+        const textColor = isDark ? '#f1f5f9' : '#4b5563';
+        const tooltipColors = baseTooltipColors();
+
+        [sentimentChart, ratingChart, volumeChart, issuesChart].forEach(chart => {
+          if (!chart) return;
+          if (chart.options.scales) {
+            const { x, y } = chart.options.scales;
+            if (x && x.ticks) x.ticks.color = textColor;
+            if (y && y.ticks) y.ticks.color = textColor;
+            if (y && y.grid) y.grid.color = gridColor;
+          }
+          chart.options.plugins.tooltip.backgroundColor = tooltipColors.bg;
+          chart.options.plugins.tooltip.titleColor = tooltipColors.text;
+          chart.options.plugins.tooltip.bodyColor = tooltipColors.text;
+          if (chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+            chart.options.plugins.legend.labels.color = textColor;
+          }
+          chart.update();
+        });
+      }
+
+      window.addEventListener('load', () => {
+        createCharts();
+      });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+          updateChartColors();
+        }
+      });
+    </script>
+  </body>
+</html>

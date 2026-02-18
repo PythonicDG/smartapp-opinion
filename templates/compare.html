@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMARTVIEW - App Comparison</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      :root {
+        --bg-primary: #f5f7fb;
+        --bg-secondary: #ffffff;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        --navbar-bg: #ffffff;
+        --navbar-border: #e5e7eb;
+        --metric-bg: #f3f4f6;
+        --accent-primary: #2563eb;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #2563eb, #3b82f6);
+      }
+
+      [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        --navbar-bg: #1e293b;
+        --navbar-border: #334155;
+        --metric-bg: #334155;
+        --accent-primary: #3b82f6;
+        --accent-success: #10b981;
+        --accent-danger: #ef4444;
+        --accent-warning: #f59e0b;
+        --gradient-primary: linear-gradient(90deg, #1e40af, #2563eb);
+      }
+
+      body {
+        background: var(--bg-primary);
+        font-family: "Inter", sans-serif;
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        background: var(--navbar-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .navbar-brand {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--accent-primary);
+      }
+
+      .back-button {
+        background: var(--metric-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .back-button:hover {
+        background: var(--border-color);
+        color: var(--text-primary);
+      }
+
+      .theme-toggle {
+        background: var(--metric-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .comparison-header {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .comparison-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+
+      .comparison-summary {
+        background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+        border-radius: 16px;
+        padding: 1rem 1.25rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(37, 99, 235, 0.12);
+      }
+
+      .app-card {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        padding: 1.25rem 1.25rem 1.5rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        height: 100%;
+      }
+
+      .app-header {
+        display: flex;
+        gap: 0.9rem;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .app-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        object-fit: cover;
+        border: 3px solid rgba(37, 99, 235, 0.15);
+      }
+
+      .app-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .badge-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+      }
+
+      .metric-pill {
+        background: var(--metric-bg);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .metric-pill strong {
+        font-weight: 700;
+      }
+
+      .score-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(37, 99, 235, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .score-circle .value {
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+
+      .chart-card {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        padding: 1rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        height: 100%;
+      }
+
+      .chart-wrapper {
+        height: 220px;
+      }
+
+      .recommendations-card {
+        background: linear-gradient(135deg, #f0f9ff, #fefce8);
+        border-radius: 16px;
+        padding: 1rem 1.25rem;
+        border-left: 4px solid var(--accent-primary);
+        font-size: 0.9rem;
+      }
+
+      .recommendations-card ul {
+        margin-bottom: 0;
+        padding-left: 1.2rem;
+      }
+
+      .recommendations-card li {
+        margin-bottom: 0.35rem;
+      }
+
+      .issues-list .issue-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.35rem 0.25rem;
+        font-size: 0.85rem;
+      }
+
+      .issues-list .badge {
+        min-width: 3rem;
+      }
+
+      .reviews-list {
+        max-height: 220px;
+        overflow-y: auto;
+        padding-right: 0.35rem;
+      }
+
+      .review-item {
+        background: #f9fafb;
+        border-radius: 10px;
+        padding: 0.6rem 0.75rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .review-item.negative {
+        background: #fef2f2;
+      }
+
+      .review-item i {
+        font-size: 0.75rem;
+        margin-right: 0.35rem;
+      }
+
+      @media (max-width: 991px) {
+        .comparison-summary {
+          margin-top: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid px-3 px-md-4">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-chart-line me-2"></i> SMARTVIEW
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-2">
+          <a href="/search" class="back-button me-2">
+            <i class="fas fa-arrow-left"></i>
+            Back to Search
+          </a>
+          <button class="theme-toggle" id="themeToggle" type="button">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid px-3 px-md-4 mt-3 mb-4">
+      <div class="comparison-header d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div>
+          <h1 class="mb-1">
+            Compare Apps
+            <span class="text-primary">side-by-side</span>
+          </h1>
+          <p class="text-muted mb-0" style="font-size: 0.9rem">
+            Using the same AI-powered analysis as the main dashboard, see which
+            app leads on ratings, sentiment and stability.
+          </p>
+        </div>
+        <div class="comparison-summary">
+          <div class="row g-2 align-items-center">
+            <div class="col-12 col-md-4 d-flex flex-column">
+              <div class="badge-label text-secondary mb-1">
+                Top Performer Overview
+              </div>
+              <div style="font-size: 0.85rem" class="text-secondary">
+                Health, ratings and sentiment compared using live Play Store
+                reviews.
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-success-subtle text-success border border-success-subtle">
+                  <i class="fas fa-heart me-1"></i> Overall Health
+                </span>
+              </div>
+              <div class="mt-1" style="font-size: 0.85rem">
+                {% set winner = comparison_summary["health_score"] %}
+                {% if winner == "app1" %}
+                  <strong>{{ app1.app_meta.title }}</strong> has a higher Smart
+                  Health Score.
+                {% elif winner == "app2" %}
+                  <strong>{{ app2.app_meta.title }}</strong> has a higher Smart
+                  Health Score.
+                {% else %}
+                  Both apps have a similar health profile.
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="d-flex flex-column" style="font-size: 0.85rem">
+                <span class="mb-1">
+                  <i class="fas fa-star text-warning me-1"></i>
+                  {% set rating_winner = comparison_summary["avg_rating"] %}
+                  {% if rating_winner == "app1" %}
+                    Higher average rating:
+                    <strong>{{ app1.app_meta.title }}</strong>
+                  {% elif rating_winner == "app2" %}
+                    Higher average rating:
+                    <strong>{{ app2.app_meta.title }}</strong>
+                  {% else %}
+                    Both apps have similar store ratings.
+                  {% endif %}
+                </span>
+                <span>
+                  <i class="fas fa-face-smile text-success me-1"></i>
+                  {% set pos_winner = comparison_summary["positive_sentiment"] %}
+                  {% if pos_winner == "app1" %}
+                    More positive reviews in analysis:
+                    <strong>{{ app1.app_meta.title }}</strong>
+                  {% elif pos_winner == "app2" %}
+                    More positive reviews in analysis:
+                    <strong>{{ app2.app_meta.title }}</strong>
+                  {% else %}
+                    Positive sentiment is similar for both apps.
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-1">
+        <div class="col-12 col-lg-6">
+          <div class="app-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="app-header">
+                <img
+                  src="{{ app1.app_meta.icon }}"
+                  alt="{{ app1.app_meta.title }} icon"
+                  class="app-icon"
+                />
+                <div>
+                  <div class="badge-label text-secondary mb-1">App A</div>
+                  <div class="app-title">{{ app1.app_meta.title }}</div>
+                  <div class="text-secondary" style="font-size: 0.85rem">
+                    {{ app1.app_meta.developer }} · {{ app1.app_meta.genre }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="score-circle mb-1">
+                  <div class="value">{{ app1.health_score }}</div>
+                  <div>Health</div>
+                </div>
+                <div class="metric-pill">
+                  <i class="fas fa-star text-warning"></i>
+                  <span>
+                    <strong>{{ app1.app_meta.score }}</strong>
+                    <span class="text-secondary">/ 5.0</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mb-2" style="font-size: 0.8rem">
+              <span class="metric-pill">
+                <i class="fas fa-download text-primary"></i>
+                <span>
+                  Installs:
+                  <strong>{{ app1.app_meta.installs }}</strong>
+                </span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-calendar text-secondary"></i>
+                <span>Since {{ app1.app_meta.released or 'N/A' }}</span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-code-branch text-secondary"></i>
+                <span>v{{ app1.app_meta.version or 'N/A' }}</span>
+              </span>
+            </div>
+
+            <div class="row g-2 mt-1">
+              <div class="col-6">
+                <div class="chart-card">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-size: 0.85rem; font-weight: 600">
+                      Rating distribution
+                    </span>
+                    <span style="font-size: 0.8rem" class="text-secondary">
+                      Store ratings
+                    </span>
+                  </div>
+                  <div class="chart-wrapper">
+                    <canvas id="ratingChart1"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="chart-card">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-size: 0.85rem; font-weight: 600">
+                      Sentiment split
+                    </span>
+                    <span style="font-size: 0.8rem" class="text-secondary">
+                      AI analysis
+                    </span>
+                  </div>
+                  <div class="chart-wrapper d-flex align-items-center justify-content-center">
+                    <canvas id="sentimentChart1"></canvas>
+                  </div>
+                  <div class="mt-1" style="font-size: 0.8rem">
+                    <span class="text-success fw-semibold">
+                      {{ app1.data['Positive'] }}% positive
+                    </span>
+                    ·
+                    <span class="text-danger fw-semibold">
+                      {{ app1.data['Negative'] }}% negative
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-2 mt-2">
+              <div class="col-6">
+                <div class="recommendations-card h-100">
+                  <div class="d-flex align-items-center mb-1" style="font-size: 0.9rem">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                    <span class="fw-semibold">AI Recommendations</span>
+                  </div>
+                  <ul class="mb-0">
+                    {% for rec in app1.recommendations %}
+                      <li>{{ rec }}</li>
+                    {% else %}
+                      <li>No specific recommendations generated.</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="app-card h-100" style="padding: 0.75rem 0.9rem">
+                  <div class="issues-list">
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.9rem">
+                      <i class="fas fa-triangle-exclamation text-danger me-2"></i>
+                      <span class="fw-semibold">Issue hotspots</span>
+                    </div>
+                    <div class="issue-item">
+                      <span><i class="fas fa-bug text-danger me-1"></i> Bugs</span>
+                      <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                        {{ app1.issue_distribution['Bug'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-tachometer-alt text-warning me-1"></i>
+                        Performance
+                      </span>
+                      <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                        {{ app1.issue_distribution['Performance'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-palette text-primary me-1"></i>
+                        UI/UX
+                      </span>
+                      <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                        {{ app1.issue_distribution['UI'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-lightbulb text-success me-1"></i>
+                        Feature Requests
+                      </span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle">
+                        {{ app1.issue_distribution['Feature'] }}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span style="font-size: 0.9rem; font-weight: 600">
+                  Sample reviews
+                </span>
+              </div>
+              <div class="reviews-list">
+                {% for r in app1.samples['Positive'] %}
+                  <div class="review-item">
+                    <i class="fas fa-smile text-success"></i>
+                    {{ r }}
+                  </div>
+                {% endfor %}
+                {% for r in app1.samples['Negative'] %}
+                  <div class="review-item negative">
+                    <i class="fas fa-frown text-danger"></i>
+                    {{ r }}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="app-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="app-header">
+                <img
+                  src="{{ app2.app_meta.icon }}"
+                  alt="{{ app2.app_meta.title }} icon"
+                  class="app-icon"
+                />
+                <div>
+                  <div class="badge-label text-secondary mb-1">App B</div>
+                  <div class="app-title">{{ app2.app_meta.title }}</div>
+                  <div class="text-secondary" style="font-size: 0.85rem">
+                    {{ app2.app_meta.developer }} · {{ app2.app_meta.genre }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="score-circle mb-1">
+                  <div class="value">{{ app2.health_score }}</div>
+                  <div>Health</div>
+                </div>
+                <div class="metric-pill">
+                  <i class="fas fa-star text-warning"></i>
+                  <span>
+                    <strong>{{ app2.app_meta.score }}</strong>
+                    <span class="text-secondary">/ 5.0</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mb-2" style="font-size: 0.8rem">
+              <span class="metric-pill">
+                <i class="fas fa-download text-primary"></i>
+                <span>
+                  Installs:
+                  <strong>{{ app2.app_meta.installs }}</strong>
+                </span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-calendar text-secondary"></i>
+                <span>Since {{ app2.app_meta.released or 'N/A' }}</span>
+              </span>
+              <span class="metric-pill">
+                <i class="fas fa-code-branch text-secondary"></i>
+                <span>v{{ app2.app_meta.version or 'N/A' }}</span>
+              </span>
+            </div>
+
+            <div class="row g-2 mt-1">
+              <div class="col-6">
+                <div class="chart-card">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-size: 0.85rem; font-weight: 600">
+                      Rating distribution
+                    </span>
+                    <span style="font-size: 0.8rem" class="text-secondary">
+                      Store ratings
+                    </span>
+                  </div>
+                  <div class="chart-wrapper">
+                    <canvas id="ratingChart2"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="chart-card">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-size: 0.85rem; font-weight: 600">
+                      Sentiment split
+                    </span>
+                    <span style="font-size: 0.8rem" class="text-secondary">
+                      AI analysis
+                    </span>
+                  </div>
+                  <div class="chart-wrapper d-flex align-items-center justify-content-center">
+                    <canvas id="sentimentChart2"></canvas>
+                  </div>
+                  <div class="mt-1" style="font-size: 0.8rem">
+                    <span class="text-success fw-semibold">
+                      {{ app2.data['Positive'] }}% positive
+                    </span>
+                    ·
+                    <span class="text-danger fw-semibold">
+                      {{ app2.data['Negative'] }}% negative
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-2 mt-2">
+              <div class="col-6">
+                <div class="recommendations-card h-100">
+                  <div class="d-flex align-items-center mb-1" style="font-size: 0.9rem">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                    <span class="fw-semibold">AI Recommendations</span>
+                  </div>
+                  <ul class="mb-0">
+                    {% for rec in app2.recommendations %}
+                      <li>{{ rec }}</li>
+                    {% else %}
+                      <li>No specific recommendations generated.</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="app-card h-100" style="padding: 0.75rem 0.9rem">
+                  <div class="issues-list">
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.9rem">
+                      <i class="fas fa-triangle-exclamation text-danger me-2"></i>
+                      <span class="fw-semibold">Issue hotspots</span>
+                    </div>
+                    <div class="issue-item">
+                      <span><i class="fas fa-bug text-danger me-1"></i> Bugs</span>
+                      <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                        {{ app2.issue_distribution['Bug'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-tachometer-alt text-warning me-1"></i>
+                        Performance
+                      </span>
+                      <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                        {{ app2.issue_distribution['Performance'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-palette text-primary me-1"></i>
+                        UI/UX
+                      </span>
+                      <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                        {{ app2.issue_distribution['UI'] }}%
+                      </span>
+                    </div>
+                    <div class="issue-item">
+                      <span>
+                        <i class="fas fa-lightbulb text-success me-1"></i>
+                        Feature Requests
+                      </span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle">
+                        {{ app2.issue_distribution['Feature'] }}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span style="font-size: 0.9rem; font-weight: 600">
+                  Sample reviews
+                </span>
+              </div>
+              <div class="reviews-list">
+                {% for r in app2.samples['Positive'] %}
+                  <div class="review-item">
+                    <i class="fas fa-smile text-success"></i>
+                    {{ r }}
+                  </div>
+                {% endfor %}
+                {% for r in app2.samples['Negative'] %}
+                  <div class="review-item negative">
+                    <i class="fas fa-frown text-danger"></i>
+                    {{ r }}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+        } else {
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+        }
+      }
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        localStorage.setItem('theme', next);
+        updateChartsColors();
+      });
+
+      // Legacy comparison template not used by the app anymore.
+      // Kept only for reference; charts disabled to avoid lint errors.
+
+      let ratingChart1, ratingChart2, sentimentChart1, sentimentChart2;
+
+      function baseTooltipColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return {
+          bg: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.85)',
+          text: isDark ? '#000' : '#fff'
+        };
+      }
+
+      function createCharts() {
+        const colors = baseTooltipColors();
+
+        const ratingCtx1 = document.getElementById('ratingChart1');
+        const ratingCtx2 = document.getElementById('ratingChart2');
+        const sentimentCtx1 = document.getElementById('sentimentChart1');
+        const sentimentCtx2 = document.getElementById('sentimentChart2');
+
+        if (!ratingCtx1 || !ratingCtx2 || !sentimentCtx1 || !sentimentCtx2) return;
+
+        ratingChart1 = new Chart(ratingCtx1, {
+          type: 'bar',
+          data: {
+            labels: ['1★', '2★', '3★', '4★', '5★'],
+            datasets: [{
+              data: app1Ratings,
+              backgroundColor: ['#ef4444','#f97316','#eab308','#84cc16','#10b981'],
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: 'rgba(255,255,255,0.8)'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: colors.bg,
+                titleColor: colors.text,
+                bodyColor: colors.text
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark'
+                    ? 'rgba(255,255,255,0.05)'
+                    : 'rgba(0,0,0,0.05)'
+                },
+                ticks: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                }
+              },
+              x: {
+                grid: { display: false },
+                ticks: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                }
+              }
+            }
+          }
+        });
+
+        ratingChart2 = new Chart(ratingCtx2, {
+          type: 'bar',
+          data: {
+            labels: ['1★', '2★', '3★', '4★', '5★'],
+            datasets: [{
+              data: app2Ratings,
+              backgroundColor: ['#ef4444','#f97316','#eab308','#84cc16','#10b981'],
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: 'rgba(255,255,255,0.8)'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: colors.bg,
+                titleColor: colors.text,
+                bodyColor: colors.text
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark'
+                    ? 'rgba(255,255,255,0.05)'
+                    : 'rgba(0,0,0,0.05)'
+                },
+                ticks: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                }
+              },
+              x: {
+                grid: { display: false },
+                ticks: {
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#666'
+                }
+              }
+            }
+          }
+        });
+
+        sentimentChart1 = new Chart(sentimentCtx1, {
+          type: 'doughnut',
+          data: {
+            labels: ['Positive', 'Negative'],
+            datasets: [{
+              data: [app1Pos, app1Neg],
+              backgroundColor: [
+                'rgba(16, 185, 129, 0.9)',
+                'rgba(239, 68, 68, 0.9)'
+              ],
+              borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : '#ffffff',
+              borderWidth: 3,
+              hoverOffset: 10
+            }]
+          },
+          options: {
+            cutout: '65%',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: colors.bg,
+                titleColor: colors.text,
+                bodyColor: colors.text,
+                callbacks: {
+                  label: function (ctx) {
+                    return `${ctx.label}: ${ctx.parsed}%`;
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        sentimentChart2 = new Chart(sentimentCtx2, {
+          type: 'doughnut',
+          data: {
+            labels: ['Positive', 'Negative'],
+            datasets: [{
+              data: [app2Pos, app2Neg],
+              backgroundColor: [
+                'rgba(16, 185, 129, 0.9)',
+                'rgba(239, 68, 68, 0.9)'
+              ],
+              borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : '#ffffff',
+              borderWidth: 3,
+              hoverOffset: 10
+            }]
+          },
+          options: {
+            cutout: '65%',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: colors.bg,
+                titleColor: colors.text,
+                bodyColor: colors.text,
+                callbacks: {
+                  label: function (ctx) {
+                    return `${ctx.label}: ${ctx.parsed}%`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function updateChartsColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+        const textColor = isDark ? '#f1f5f9' : '#666';
+        const tooltipColors = baseTooltipColors();
+
+        [ratingChart1, ratingChart2].forEach(chart => {
+          if (!chart) return;
+          chart.options.scales.y.grid.color = gridColor;
+          chart.options.scales.y.ticks.color = textColor;
+          chart.options.scales.x.ticks.color = textColor;
+          chart.options.plugins.tooltip.backgroundColor = tooltipColors.bg;
+          chart.options.plugins.tooltip.titleColor = tooltipColors.text;
+          chart.options.plugins.tooltip.bodyColor = tooltipColors.text;
+          chart.update();
+        });
+
+        [sentimentChart1, sentimentChart2].forEach(chart => {
+          if (!chart) return;
+          chart.options.plugins.tooltip.backgroundColor = tooltipColors.bg;
+          chart.options.plugins.tooltip.titleColor = tooltipColors.text;
+          chart.options.plugins.tooltip.bodyColor = tooltipColors.text;
+          chart.update();
+        });
+      }
+
+      window.addEventListener('load', () => {
+        createCharts();
+      });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+          updateChartsColors();
+        }
+      });
+    </script>
+  </body>
+</html>
